@@ -2,7 +2,7 @@
 
 ### Overview
 
-This project is dedicated to performing an RFM (Recency, Frequency, Monetary) analysis on transactional data from a retail pharmacy chain. 
+This project is dedicated to performing an RFM (Recency, Frequency, Monetary) analysis on transactional data from a retail pharmacy chain. The results will be visualized and explored using Metabase.
 
 ### The dataset
 
