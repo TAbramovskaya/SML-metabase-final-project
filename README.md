@@ -10,6 +10,8 @@ The dataset was provided by the educational project Simulative and represents re
 
 The dataset contains 451,298 transactions recorded between May 1 and June 9, 2022, including detailed information about customer purchases, transaction amounts, and loyalty program identifiers.
 
+Access to the dataset is provided via remote connection to a PostgreSQL database.
+
 ### Objective
 
 The primary objective of this project is to prepare, analyze, and segment customer data using the RFM framework.
