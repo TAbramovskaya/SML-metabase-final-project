@@ -103,7 +103,7 @@ from daily_card_usage;
 
  */
 
-with valid_transactions as (select
+with regular_transactions as (select
                                 count(distinct dr_nchk) as dist_receipts,
                                 sum(dr_croz*dr_kol) as total_purchase_value,
                                 dr_bcdisc as card_number,
@@ -113,7 +113,7 @@ with valid_transactions as (select
                             group by dr_bcdisc
                             having count(distinct dr_nchk) <= 36)
 select *
-from valid_transactions
+from regular_transactions
 order by dist_receipts desc;
 
 /*

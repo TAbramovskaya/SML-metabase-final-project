@@ -1,4 +1,4 @@
-/* 04 Total revenue for valid and invalid cards
+/*
  We calculate the total revenue for the invalid (null) cards and for the valid
  cards (in thousands).
  */

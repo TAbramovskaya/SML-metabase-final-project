@@ -1,4 +1,4 @@
-/* 03 Receipts associated with valid and invalid cards
+/*
  We calculate how many receipts (sales.dr_nchk) correspond to invalid (null) cards
  and how many correspond to valid cards.
  */
