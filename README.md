@@ -1,4 +1,4 @@
-# Pharma RFM Dashboard in Metabase
+# Pharma RFM Analysis
 
 ### Overview
 
@@ -8,7 +8,7 @@ This project is dedicated to performing an RFM (Recency, Frequency, Monetary) an
 
 The dataset was provided by the educational project Simulative and represents real transaction data from the loyalty program of one of the pharmacy chains in Russia.
 
-The dataset contains 451,298 transactions recorded between May 1 and June 9, 2022, including detailed information about customer purchases, transaction amounts, and loyalty program identifiers.
+The dataset contains 45 128 transactions recorded between May 1 and June 9, 2022, including detailed information about customer purchases, transaction amounts, and loyalty program identifiers.
 
 Access to the dataset is provided via remote connection to a PostgreSQL database.
 
