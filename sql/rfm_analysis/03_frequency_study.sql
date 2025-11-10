@@ -24,7 +24,7 @@ with regular_transactions as (select *
                         recency,
                         frequency,
                         monetary,
-                        ntile(3) over (order by recency asc) as r_score,
+                        ntile(3) over (order by recency) as r_score,
                         ntile(3) over (order by frequency desc) as f_score,
                         ntile(3) over (order by monetary desc) as m_score
                     from rfm_base)
@@ -81,7 +81,7 @@ order by f_score;
                         recency,
                         frequency,
                         monetary,
-                        ntile(3) over (order by recency asc) as r_score,
+                        ntile(3) over (order by recency) as r_score,
                         case
                             when frequency >= 4 then 1
                             when frequency >= 2 then 2

@@ -16,7 +16,7 @@ with regular_transactions as (select *
                         recency,
                         frequency,
                         monetary,
-                        ntile(3) over (order by recency asc) as r_score,
+                        ntile(3) over (order by recency) as r_score,
                         case
                             when frequency >= 4 then 1
                             when frequency >= 2 then 2
@@ -26,9 +26,6 @@ with regular_transactions as (select *
                             when monetary >= 4000 then 0
                             else ntile(3) over (partition by (monetary < 4000) order by monetary desc)
                         end as m_score
-                    from rfm_base),
-     median_val as (select
-                        percentile_cont(0.5) within group (order by monetary) as median
                     from rfm_base)
 select
     card_number,
