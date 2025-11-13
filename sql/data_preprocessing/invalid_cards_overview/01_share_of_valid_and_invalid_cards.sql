@@ -1,12 +1,5 @@
 /*
- We are analyzing the data. Customers are tracked using their loyalty card numbers
- (sales.dr_bcdisc). Some cards are recorded as the string 'NULL'. Let’s find out
- how many such entries there are, how many purchases (receipts) are associated with them,
- and what contribution these users make to the total revenue for the analysis period.
-
- We calculate how many transactions correspond to null cards and how many to valid cards.
- Let’s also make sure that all cards are either marked with the string 'NULL' or have
- some other string value, and that there are no SQL nulls among them.
+ We are examining how customer cards are represented in the DR_BCDisc column. Transactions made without a loyalty card have the string value 'NULL' in this column. We calculate how many transactions correspond to 'NULL' cards and how many to valid cards. Let’s also make sure that all cards are either marked with the string 'NULL' or have some other string value, and that there are no SQL nulls among them.
  */
 
 select
