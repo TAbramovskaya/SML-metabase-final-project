@@ -107,15 +107,14 @@ from daily_card_usage;
 with regular_transactions as (select
                                   count(distinct
                                         (dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl)) as receipts,
-                                  sum(dr_croz * dr_kol) as total_purchase_value,
+                                  round(sum(dr_croz * dr_kol - dr_sdisc)::numeric, 2) as total_purchase_value,
                                   dr_bcdisc as card,
                                   count(distinct dr_apt) as stores
                               from sales
-                              where dr_bcdisc != 'NULL'
-                              group by dr_bcdisc
-                              having dr_bcdisc not in
-                                     ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042',
-                                      '200000000044'))
+                              where dr_bcdisc not in
+                                    ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042',
+                                     '200000000044', 'NULL')
+                              group by dr_bcdisc)
 select *
 from regular_transactions
 order by receipts desc;
@@ -125,16 +124,16 @@ order by receipts desc;
 +--------+--------------------+------------+------+
 |receipts|total_purchase_value|card        |stores|
 +--------+--------------------+------------+------+
-|36      |14888.3418635       |200010018869|1     |
-|34      |23052.4             |200010020088|1     |
-|24      |11581.659999999998  |200010011985|1     |
-|19      |10082.78            |200010020276|1     |
-|18      |13262.6             |200010027390|1     |
-|17      |8932                |200010020302|1     |
-|14      |7499                |200010018361|1     |
-|13      |18928.5             |200010022842|1     |
-|13      |8843.2              |200010009969|1     |
-|11      |9467.12             |200010002315|1     |
+|36      |13965               |200010018869|1     |
+|34      |22012               |200010020088|1     |
+|24      |11059               |200010011985|1     |
+|19      |9515                |200010020276|1     |
+|18      |12635               |200010027390|1     |
+|17      |8565                |200010020302|1     |
+|14      |6980                |200010018361|1     |
+|13      |18057               |200010022842|1     |
+|13      |8430                |200010009969|1     |
+|11      |9114                |200010002315|1     |
 ...
 
  Thus, we exclude from the analysis cards ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200000000044').
