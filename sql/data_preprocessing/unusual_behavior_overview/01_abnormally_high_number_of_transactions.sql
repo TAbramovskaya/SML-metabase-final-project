@@ -108,7 +108,7 @@ with regular_transactions as (select
                                   count(distinct
                                         (dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl)) as receipts,
                                   round(sum(dr_croz * dr_kol - dr_sdisc)::numeric, 2) as total_purchase_value,
-                                  dr_bcdisc as card,
+                                  dr_bcdisc as barcode,
                                   count(distinct dr_apt) as stores
                               from sales
                               where dr_bcdisc not in
@@ -122,7 +122,7 @@ order by receipts desc;
 /*
  Result:
 +--------+--------------------+------------+------+
-|receipts|total_purchase_value|card        |stores|
+|receipts|total_purchase_value|barcode     |stores|
 +--------+--------------------+------------+------+
 |36      |13965               |200010018869|1     |
 |34      |22012               |200010020088|1     |
@@ -136,5 +136,5 @@ order by receipts desc;
 |11      |9114                |200010002315|1     |
 ...
 
- Thus, we exclude from the analysis cards ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200000000044').
+ Thus, we exclude from the analysis barcodes ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200000000044').
  */

@@ -1,11 +1,11 @@
 /*
- Among valid numbers, unusual behavior is sometimes observed. For example, it also happens that different loyalty cards are used within a single receipt. Let’s take a look at one such receipt.
+ Among valid barcodes, unusual behavior is sometimes observed. For example, it also happens that different loyalty cards are used within a single receipt. Let’s take a look at one such receipt.
  */
 
 select
     dr_nchk as receipt,
     dr_pos as position,
-    dr_bcdisc as card,
+    dr_bcdisc as barcode,
     dr_croz * dr_kol as price,
     dr_cdisc as discount_code,
     dr_cdrugs as drug_code,
@@ -21,14 +21,14 @@ where dr_dat = '2022-05-15'::date
 /*
  Result:
 +-------+--------+------------+-----+-------------+---------+---------------+
-|receipt|position|card        |price|discount_code|drug_code|drug_name      |
+|receipt|position|barcode     |price|discount_code|drug_code|drug_name      |
 +-------+--------+------------+-----+-------------+---------+---------------+
 |1903   |1       |200010017048|333  |9            |112034   |АМЕЛОТЕКС 15МГ.|
 |1903   |2       |200010017048|339  |9            |261404   |ВАЛСАРТАН 80МГ.|
 |1903   |3       |200000000042|135  |939          |339288   |ЛИНКОМИЦИН 250М|
 +-------+--------+------------+-----+-------------+---------+---------------+
 
- I would assume that pharmacy employees might use certain cards to process orders placed, for example, by phone, or to adjust the discount amount for certain products. Card 200000000042 appears in 75 transactions across 8 different pharmacies, whereas card 200010017048 appears only in these two transactions included in this receipt.
+ Card 200000000042 appears in 73 transactions across 8 different pharmacies, whereas card 200010017048 appears only in these two transactions included in this receipt.
 
  In total, there are 18 cards that appeared in the same receipt simultaneously.
  ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200010018869', '200010027390', '200010020351', '200010007376', '200010022634', '200010000007', '200010016458', '200010001032', '200010000888', '200010000008', '200010026840', '200010013481', '200010017048')

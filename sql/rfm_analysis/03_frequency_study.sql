@@ -1,6 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for frequency were determined when dividing
- customers into three equal groups.
+ Let’s take a look at how the score boundaries for frequency were determined when dividing customers into three equal groups.
  */
 
 with regular_transactions as (select *

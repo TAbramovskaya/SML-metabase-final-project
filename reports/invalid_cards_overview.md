@@ -8,30 +8,13 @@ The distribution of valid and invalid transactions within a single day appears c
 
 ![](images/distribution_of_users_with_valid_and_invalid_cards_by_day.png)
 
-Let’s examine how many distinct receipts are present in the data in total; how many of them include a valid loyalty card and how many contain a NULL card. To count them, we use the primary key without the positions (dr_pos) field.
+Let’s examine how many distinct receipts are present in the data in total; how many of them include a valid loyalty card and how many contain a NULL card. 
 
 ![](images/receipts_associated_with_valid_and_invalid_cards.png)
 
-We see that the sum of valid and 'NULL' receipts does not equal the total. This means that some receipts contain both items purchased with a valid loyalty card and items for which no discount was applied.
+We see that the sum of valid and 'NULL' receipts does not equal the Total. This means that some receipts contain both items purchased with a valid loyalty card and items for which no discount was applied.
 
- We can assume that certain product categories are not eligible for discounts: in the data, there are no receipts where the discount code varies — it is either the same for all items in a receipt or equal to 0 (and for such transactions, the loyalty card is recorded as 'NULL'). Let’s take a look at one of these receipts as an example (dr_dat = '2022-05-29'::date
-  and dr_tim = '10:08:06'::time
-  and sales.dr_nchk = 2297
-  and dr_ndoc = 11004981
-  and dr_apt = 11
-  and dr_kkm = 23925;)
-
-+-------+--------+------------+-----+--------+---------+---------------+
-|receipt|position|card        |price|discount|drug_code|drug_name      |
-+-------+--------+------------+-----+--------+---------+---------------+
-|2297   |1       |NULL        |395  |0       |4260     |ВИБРОЦИЛ 15МЛ. |
-|2297   |2       |NULL        |455  |0       |76754    |РЕННИ №24 ТАБ.Ж|
-|2297   |3       |200000000024|259  |25      |83115    |РОКС ЗУБ.ПАСТА |
-|2297   |4       |200000000024|256  |25      |27561    |РОКС ЗУБ.ПАСТА |
-|2297   |5       |NULL        |121  |0       |72392    |СНУП 0,1% 90МКГ|
-|2297   |6       |NULL        |121  |0       |72392    |СНУП 0,1% 90МКГ|
-|2297   |7       |NULL        |446  |0       |31       |ТАНТУМ ВЕРДЕ 0,|
-+-------+--------+------------+-----+--------+---------+---------------+
+ We can assume that certain product categories are not eligible for discounts: in the data, there are no receipts where the discount code varies — it is either the same for all items in a receipt or equal to 0 (and for such transactions, the loyalty card is recorded as 'NULL'). Let’s take a look at one of these receipts as an example.
 
 | receipt | position | card | price | discount | drug\_code | drug\_name |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
