@@ -1,5 +1,5 @@
 /*
- Among the valid cards, a few stand out due to anomalous behavior. Specifically, they account for a very large number of transactions and/or transactions are conducted across a large number of different pharmacies. The study period is approximately six weeks. Let’s limit the number of pharmacy visits per customer to 12 during this period and see the results.
+ Among the valid barcodes, a few stand out due to anomalous behavior. Specifically, they account for a very large number of transactions and/or transactions are conducted across a large number of different pharmacies. The study period is 39 days.
  */
 
 with valid_transactions as (select *
@@ -10,7 +10,7 @@ select
         over (order by count(distinct (dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl)) desc) as rank,
         count(distinct (dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl)) as receipts,
         dr_bcdisc as card,
-        count(distinct dr_apt) as stores
+        count(distinct dr_apt) as different_stores
 from valid_transactions
 group by dr_bcdisc
 order by receipts desc
@@ -18,28 +18,27 @@ limit 15;
 
 /*
  Result:
-+----+--------+------------+------+
-|rank|receipts|card        |stores|
-+----+--------+------------+------+
-|1   |2000    |200000000022|1     |
-|2   |1032    |200000000492|7     |
-|3   |527     |200000000024|7     |
-|4   |82      |200010000015|8     |
-|5   |73      |200000000042|8     |
-|6   |47      |200000000044|6     |
-|7   |36      |200010018869|1     |
-|8   |34      |200010020088|1     |
-|9   |24      |200010011985|1     |
-|10  |19      |200010020276|1     |
-|11  |18      |200010027390|1     |
-|12  |17      |200010020302|1     |
-|13  |14      |200010018361|1     |
-|14  |13      |200010009969|1     |
-|15  |13      |200010022842|1     |
-+----+--------+------------+------+
++----+--------+------------+----------------+
+|rank|receipts|card        |different_stores|
++----+--------+------------+----------------+
+|1   |2000    |200000000022|1               |
+|2   |1032    |200000000492|7               |
+|3   |527     |200000000024|7               |
+|4   |82      |200010000015|8               |
+|5   |73      |200000000042|8               |
+|6   |47      |200000000044|6               |
+|7   |36      |200010018869|1               |
+|8   |34      |200010020088|1               |
+|9   |24      |200010011985|1               |
+|10  |19      |200010020276|1               |
+|11  |18      |200010027390|1               |
+|12  |17      |200010020302|1               |
+|13  |14      |200010018361|1               |
+|14  |13      |200010009969|1               |
+|15  |13      |200010022842|1               |
++----+--------+------------+----------------+
 
-
- Card 200000000022 accounts for more than a quarter of all receipts. The top six cards with the highest number of receipts together accumulate over half of all receipts.
+ Barcode 200000000022 accounts for more than a quarter of all receipts. The top six cards with the highest number of receipts together accumulate over half of all receipts.
  */
 
 select
@@ -58,7 +57,7 @@ where dr_bcdisc in
     +----------------+------------+
 
  We highlight the first six cards.
- The card with id=1 has an abnormally large number of unique receipts over the incomplete six-week period (all of them at a single store): 2000 transactions totaling 1 529 558.10R. Cards with ids 2 through 6 have fewer transactions, but purchases were made at different pharmacies. For example, for the second card, 200000000492, there were 957 transactions totaling 839,869.77 rubles, and transactions were conducted at multiple pharmacies on each working day.
+ The barcode with rank=1 has an abnormally large number of unique receipts over the incomplete six-week period (all of them at a single store): 2000 transactions totaling 1 529 558.10R. Barcodes with ranks 2 through 6 have fewer transactions, but purchases were made at different pharmacies. For example, for the second card, 200000000492, there were 957 transactions totaling 839,869.77 rubles, and transactions were conducted at multiple pharmacies on each working day.
  */
 
 with daily_card_usage as (select

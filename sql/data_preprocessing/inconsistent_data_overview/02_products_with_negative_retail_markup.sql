@@ -27,13 +27,13 @@ group by dr_ndrugs,
 +------------------+------------+---------------+---------------+----------------+
 
 
- A negative retail markup occurs only for a single product, “Loyalty Card.” Presumably, purchasing this item through retail is one way to start using the benefits of the loyalty program. Therefore, it’s not surprising that these transactions are associated only with invalid customer cards. A total of 52 such cards were sold during the period under consideration:
+ A negative retail markup occurs only for a single product, “Loyalty Card.” Presumably, purchasing this item through retail is one way to start using the benefits of the loyalty program. Therefore, it’s not surprising that these transactions are associated only with 'NULL' receipts. A total of 52 such cards were sold during the period under consideration:
  */
 
- select
+select
     count(dr_ndrugs)
 from sales
- where dr_ndrugs = 'Карта LOYALITY 25Р';
+where dr_ndrugs = 'Карта LOYALITY 25Р';
 
 /*
  Result:

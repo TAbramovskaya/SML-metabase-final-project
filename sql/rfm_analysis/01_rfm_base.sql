@@ -7,43 +7,54 @@
  */
 
 /*
-To begin, we will compile a table containing the receipts that will serve as the basis for the RFM analysis. To do this, we will first merge all missing NULL-transactions into their corresponding receipts, then filter out the barcodes we identified as outliers as well as any receipts whose barcode remained NULL after all processing steps.
+To begin, we will compile a table containing the receipts that will serve as the basis for the RFM analysis. To do this, we will first merge all missing NULL-transactions into their corresponding receipts (CTE all_receipts), then filter out the barcodes we identified as outliers as well as any receipts whose barcode remained NULL after all processing steps (CTE regular_receipts).
 */
 
-select
-    dr_dat as purchase_date,
-    min(dr_bcdisc) as barcode,
-    dr_nchk as receipt_id,
-    round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total
-from sales
-group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl
-having min(dr_bcdisc) not in
-       ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042',
-        '200000000044', 'NULL');
+with all_receipts as (select
+                          dr_dat as purchase_date,
+                          coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
+                                                                ('200000000022', '200000000492', '200000000024',
+                                                                 '200010000015', '200000000042', '200000000044',
+                                                                 'NULL')),
+                                   min(dr_bcdisc)) as barcode,
+                          dr_nchk as receipt_id,
+                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total
+                      from sales
+                      group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
+     regular_receipts as (select *
+                          from all_receipts
+                          where barcode not in
+                                ('200000000022', '200000000492', '200000000024', '200010000015',
+                                 '200000000042', '200000000044', 'NULL'))
+select *
+from regular_receipts;
 
 /*
  We can check what proportion of receipts will ultimately form the basis for the analysis.
  */
 
-with regular_receipts as (select
-                              dr_dat as purchase_date,
-                              min(dr_bcdisc) as barcode,
-                              dr_nchk as receipt_id,
-                              round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
-                              count(*) as number_of_items
-                          from sales
-                          group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl
-                          having min(dr_bcdisc) not in
-                                 ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042',
-                                  '200000000044', 'NULL')),
-     excluded_receipts as (select
-                            dr_nchk as receipt_id,
-                            count(*) as number_of_items
-                        from sales
-                        group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl
-                        having min(dr_bcdisc) in
-                                 ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042',
-                                  '200000000044', 'NULL'))
+with all_receipts as (select
+                          dr_dat as purchase_date,
+                          coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
+                                                                ('200000000022', '200000000492', '200000000024',
+                                                                 '200010000015', '200000000042', '200000000044',
+                                                                 'NULL')),
+                                   min(dr_bcdisc)) as barcode,
+                          dr_nchk as receipt_id,
+                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
+                          count(*) as number_of_items
+                      from sales
+                      group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
+     regular_receipts as (select *
+                          from all_receipts
+                          where barcode not in
+                                ('200000000022', '200000000492', '200000000024', '200010000015',
+                                 '200000000042', '200000000044', 'NULL')),
+     excluded_receipts as (select *
+                           from all_receipts
+                           where barcode in
+                                 ('200000000022', '200000000492', '200000000024', '200010000015',
+                                  '200000000042', '200000000044', 'NULL'))
 select
     'Regular receipts' as type,
     count(receipt_id) as receipts,
@@ -54,16 +65,23 @@ select
     'Excluded receipts',
     count(receipt_id),
     sum(number_of_items)
-from excluded_receipts;
+from excluded_receipts
+union all
+select
+    'Total',
+    count(receipt_id),
+    sum(number_of_items)
+from all_receipts;
 
 /*
  Result:
 +-----------------+--------+------------+
 |type             |receipts|transactions|
 +-----------------+--------+------------+
-|Regular receipts |3872    |10183       |
-|Excluded receipts|17130   |34945       |
+|Regular receipts |3886    |10256       |
+|Excluded receipts|17116   |34872       |
+|Total            |21002   |45128       |
 +-----------------+--------+------------+
 
-The RFM analysis will be based on 18% of all receipts available in the dataset. This corresponds to 3 872 receipts, representing purchases made by 2 280 customers.
+The RFM analysis will be based on 18.5% of all receipts available in the dataset. This corresponds to 3 886 receipts, representing purchases made by 2 285 customers. Compared to the initial dataset, the analysis will be based on 10 256 transactions, which corresponds to slightly less than 22.7% of the entire dataset.
  */

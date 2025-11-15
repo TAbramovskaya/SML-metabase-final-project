@@ -24,6 +24,6 @@ where dr_sdisc < 0
 |-1           |-470           |NULL            |
 +-------------+---------------+----------------+
 
-Among these orders, those with a negative quantity -1, the corresponding receipts consist of a single item, and the loyalty card is recorded as 'NULL'. In transactions with a positive quantity but a negative discount, card 200000000492 is used, which we exclude in our analysis (see [unusual_behavior_overview.md](unusual_behavior_overview.md)).
+Among these orders, those with a negative quantity -1, the corresponding receipts consist of a single item, and the loyalty card is recorded as 'NULL'. In transactions with a positive quantity but a negative discount, barcode 200000000492 is used, which we exclude in our analysis (see [unusual_behavior_overview.md](unusual_behavior_overview.md)).
 
  */
