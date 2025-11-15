@@ -9,7 +9,7 @@ Among valid barcodes, unusual behavior is sometimes observed. For example, it al
 
 Barcode 200000000042 appears in 73 transactions across 8 different stores, whereas barcode 200010017048 appears only in these two transactions included in this receipt. We may assume that some barcodes (like “the forty-second” in the example receipt) might be used by pharmacy staff together with a customer’s barcode. As we will see later, some barcodes appear an unusually high number of times.
 
-TODO!! There are 3 687 receipts (8 066 transactions) in which two barcodes are listed at the same time. There are 18 such barcodes in total.
+There are 41 receipts in which two barcodes are listed at the same time. There are 18 such barcodes in total.
 
 |                |                |                |                |                |                |
 |:---------------|:---------------|:---------------|:---------------|:---------------|:---------------|

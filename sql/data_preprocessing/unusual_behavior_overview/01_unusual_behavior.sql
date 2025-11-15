@@ -30,31 +30,38 @@ where dr_dat = '2022-05-15'::date
 
  Barcode 200000000042 appears in 73 transactions across 8 different stores, whereas barcode 200010017048 appears only in these two transactions included in this receipt. We may assume that some barcodes (like “the forty-second” in the example receipt) might be used by pharmacy staff together with a customer’s barcode. As we will see later, some barcodes appear an unusually high number of times.
 
-TODO!! There are 3 687 receipts (8 066 transactions) in which two barcodes are listed at the same time. There are 18 such barcodes in total.
-('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200010018869', '200010027390', '200010020351', '200010007376', '200010022634', '200010000007', '200010016458', '200010001032', '200010000888', '200010000008', '200010026840', '200010013481', '200010017048')
+ There are 18 such barcodes in total:
+*/
 
- Some of them show typical activity, while others show patterns that do not align with the expected “normal customer behavior.”
-
- They account for 8 251 transactions across 3 748 receipts.
- */
-
+with multi_barcodes as (select
+                            dr_dat,
+                            dr_tim,
+                            dr_nchk,
+                            dr_ndoc,
+                            dr_apt,
+                            dr_kkm,
+                            dr_tabempl
+                        from sales
+                        where dr_bcdisc != 'NULL'
+                        group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl
+                        having not min(dr_bcdisc) = max(dr_bcdisc))
 select
-    count(*) as num_transactions,
-    count(distinct (dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl)) as num_receipts
-from sales
-where dr_bcdisc in
-      ('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200010018869', '200010027390',
-       '200010020351', '200010007376', '200010022634', '200010000007', '200010016458', '200010001032', '200010000888',
-       '200010000008', '200010026840', '200010013481', '200010017048');
+    -- count(distinct (s.dr_dat, s.dr_tim, s.dr_nchk, s.dr_ndoc, s.dr_apt, s.dr_kkm, s.dr_tabempl))
+    distinct s.dr_bcdisc
+from sales s
+right join multi_barcodes mb
+    on s.dr_dat = mb.dr_dat
+    and s.dr_tim = mb.dr_tim
+    and s.dr_nchk = mb.dr_nchk
+    and s.dr_ndoc = mb.dr_ndoc
+    and s.dr_apt = mb.dr_apt
+    and s.dr_kkm = mb.dr_kkm
+    and s.dr_tabempl = mb.dr_tabempl;
 
 /*
- Result:
-+----------------+------------+
-|num_transactions|num_receipts|
-+----------------+------------+
-|8251            |3748        |
-+----------------+------------+
+('200000000022', '200000000492', '200000000024', '200010000015', '200000000042', '200010018869', '200010027390', '200010020351', '200010007376', '200010022634', '200010000007', '200010016458', '200010001032', '200010000888', '200010000008', '200010026840', '200010013481', '200010017048')
+
+ There are 41 receipts with double barcodes.
+
+ Some of them show typical activity, while others show patterns that do not align with the expected “normal customer behavior."
  */
-
-
-
