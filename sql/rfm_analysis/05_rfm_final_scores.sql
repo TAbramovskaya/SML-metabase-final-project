@@ -40,7 +40,11 @@ with all_receipts as (select
                         recency,
                         frequency,
                         monetary,
-                        ntile(3) over (order by recency) as r_score,
+                        case
+                            when recency <= 8 then 1
+                            when recency <= 20 then 2
+                            else 3
+                            end as r_score,
                         case
                             when frequency >= 7 then 0
                             when frequency >= 4 then 1
@@ -52,7 +56,7 @@ with all_receipts as (select
                             else ntile(3) over (partition by (monetary < 5000) order by monetary desc)
                             end as m_score
                     from rfm_base)
-select
+/* select
     barcode,
     recency,
     r_score,
@@ -61,9 +65,7 @@ select
     monetary,
     m_score
 from rfm_scores
-order by recency, frequency desc, monetary desc;
-
-/*
+order by recency, frequency desc, monetary desc;*/
 select
     count(barcode) as cohort_size,
     r_score::text || f_score::text || m_score::text as cohort_segment
@@ -75,43 +77,44 @@ order by  r_score, f_score, m_score;
 +-----------+--------------+
 |cohort_size|cohort_segment|
 +-----------+--------------+
-|14         |100           |
+|13         |100           |
 |11         |101           |
 |15         |110           |
-|53         |111           |
+|52         |111           |
 |11         |112           |
-|16         |120           |
-|172        |121           |
-|104        |122           |
+|15         |120           |
+|166        |121           |
+|98         |122           |
 |32         |123           |
 |4          |130           |
-|71         |131           |
-|98         |132           |
-|161        |133           |
-|3          |200           |
+|70         |131           |
+|93         |132           |
+|156        |133           |
+|4          |200           |
 |1          |201           |
 |3          |210           |
-|20         |211           |
+|21         |211           |
 |3          |212           |
 |14         |220           |
-|133        |221           |
-|101        |222           |
-|32         |223           |
+|131        |221           |
+|100        |222           |
+|29         |223           |
 |3          |230           |
-|93         |231           |
-|156        |232           |
-|200        |233           |
+|82         |231           |
+|149        |232           |
+|195        |233           |
 |5          |311           |
 |1          |312           |
-|4          |320           |
-|52         |321           |
-|41         |322           |
-|12         |323           |
+|5          |320           |
+|60         |321           |
+|48         |322           |
+|15         |323           |
 |9          |330           |
-|123        |331           |
-|218        |332           |
-|296        |333           |
+|135        |331           |
+|230        |332           |
+|306        |333           |
 +-----------+--------------+
+
 
 
  */
