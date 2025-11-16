@@ -1,5 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for frequency were determined when dividing customers into three equal groups.
+ Let’s take a look at how the score boundaries for frequency were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
  */
 
 with all_receipts as (select
@@ -49,11 +49,16 @@ order by f_score;
 |3      |761       |1            |1            |
 +-------+----------+-------------+-------------+
 
- When dividing customers into three equal groups, Group 1 ended up with customers whose visit frequency varied too widely. We do not have data on customer age to compare their behavior with publicly available statistics, but we can assume that pharmacies are mainly used by nearby residents of older age groups. For them, it is typical to visit a pharmacy several times per month.
+ When dividing customers into three equal groups, Group 1 ended up with customers whose visit frequency varied too widely. We do not have data on customer age to compare their behavior with publicly available statistics, but we can assume that pharmacies are mainly used by nearby residents. In most large cities, several pharmacies are located within walking distance. Choosing a pharmacy is therefore determined not only by lower prices on a broad assortment, but also by personal preference. Older customers tend to stick with familiar services rather than trying new ones; they may also prefer to discuss sensitive health-related questions with pharmacy staff they know, rather than going to a new location.
 
- In most large cities, several pharmacies are located within walking distance. Choosing a pharmacy is therefore determined not only by lower prices on a broad assortment, but also by personal preference. Older customers tend to stick with familiar services rather than trying new ones; they may also prefer to discuss sensitive health-related questions with pharmacy staff they know, rather than going to a new location.
+ We also see that most customers visit the pharmacy once or twice. Given that our observation window is six weeks, we will treat Group 3 as customers who visited the pharmacy only once.
 
- Thus, it seems reasonable to shift the boundary for Groep 1 from 2 visits in six weeks to 4. We will also define Group 2 as customers who made 2 or 3 visits during this six-week period.
+ We will assign customers who visit the pharmacy two or three times to Group 2 — these may be customers who take certain medications on a daily basis and therefore require regular pharmacy visits, or simply customers who already prefer our pharmacy when they need certain products.
+
+ Group 1 will include customers with 4 to 6 visits — within a six-week period this corresponds to weekly pharmacy visits, which I would interpret as “regular customers.” These may be, for example, young parents (small children often require special medications or baby products available in pharmacies), as well as older customers who visit pharmacies several times a month.
+
+ Finally, Group 0 includes customers with more than 7 visits (the median for this group is 9 visits). Such visitors — assuming they are genuine customers and not barcodes we could not classify as for internal use — could be habitual customers who show a level of emotional attachment to the store.
+
  */
 
 with all_receipts as (select
@@ -83,6 +88,7 @@ with all_receipts as (select
                               barcode,
                               frequency,
                               case
+                                  when frequency >= 7 then 0
                                   when frequency >= 4 then 1
                                   when frequency >= 2 then 2
                                   else 3
@@ -102,10 +108,10 @@ order by f_score;
 +-------+----------+-------------+-------------+
 |f_score|group_size|min_frequency|max_frequency|
 +-------+----------+-------------+-------------+
-|1      |140       |4            |36           |
+|0      |29        |7            |36           |
+|1      |111       |4            |6            |
 |2      |713       |2            |3            |
 |3      |1432      |1            |1            |
 +-------+----------+-------------+-------------+
 
- With this adjustment, it becomes clear that the target segment should not be Group 1 (we may assume these customers have a somewhat emotional or habitual attachment to this specific pharmacy), but rather Groups 2 and 3.
  */

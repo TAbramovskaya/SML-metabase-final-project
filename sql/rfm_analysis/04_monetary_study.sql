@@ -1,5 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups.
+ Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
  */
 
 with all_receipts as (select
@@ -29,32 +29,43 @@ with all_receipts as (select
                              barcode,
                              monetary,
                              ntile(3) over (order by monetary desc) as m_score
-                         from rfm_base),
-     median_val as (select
-                        percentile_cont(0.5) within group (order by monetary) as median
-                    from rfm_base)
+                         from rfm_base)
 select
     m_score,
     count(barcode) as group_size,
     min(monetary) as min_monetary,
-    max(monetary) as max_monetary,
-    median
+    max(monetary) as max_monetary
 from monetary_scores
-cross join median_val
-group by m_score, median
+group by m_score
 order by m_score;
 
 /*
  Result:
-+-------+----------+------------+------------+------+
-|m_score|group_size|min_monetary|max_monetary|median|
-+-------+----------+------------+------------+------+
-|1      |762       |1123        |32058       |659   |
-|2      |762       |389         |1122        |659   |
-|3      |761       |24          |388         |659   |
-+-------+----------+------------+------------+------+
++-------+----------+------------+------------+
+|m_score|group_size|min_monetary|max_monetary|
++-------+----------+------------+------------+
+|1      |762       |1123        |32058       |
+|2      |762       |389         |1122        |
+|3      |761       |24          |388         |
++-------+----------+------------+------------+
 
- We are working with data that is three years old. We can see that the highest spending values differ from the median by two orders of magnitude. Let’s define Group 0 as customers who spent more than 4 000 rubles, and divide the remaining customers into three approximately equal groups.
+ The median monetary value is 659 RUB, average -- 745.5 RUB. We can see that the highest spending values differ from the median by two orders of magnitude.
+
+ We will rely on publicly available research from the analytical company RNC Pharma. According to their analytics, in the first seven months of 2025, Russians spent more than 900 RUB per month on purchasing medicinal products ([RNC Pharma blogpost about average per capita spending on the purchase of medicines](https://rncph.ru/blog/150925/)). Note that RNC Pharma analysts distinguish between purchases of medicines and non-medicinal products offered by pharmacies (parapharmaceuticals).
+
+ The average receipt for medicines in the available 2025 data is 618.5 RUB, while in 2022 the average receipt for medicines was 462.7 RUB ([blogpost about average one-time purchase in pharmacies in 2022 - 2025](https://rncph.ru/blog/201025/)). From the cited report, we also see that parapharmaceutical sales are stagnating.
+
+![](images/rnc_pharma_one_time_purchase_average.png)
+
+ We will make a very rough assumption that, apart from inflation, the structure of receipts, pharmacy visitation patterns, and other factors did not change significantly, and we will interpolate the 2025 proportions to 2022. Overall, the trend appears stable — see the [blogpost about dynamics (monthly) of the average one-time purchase 2023-2025](https://rncph.ru/blog/170425/).
+
+ Thus, we will assume that in 2022 the monthly spending is approximately 673.3 RUB.
+
+  From the referenced reports, we also see that the average receipt including parapharmaceuticals in 2022 was 1.3 times higher, at 601.8 RUB, but we also see that parapharmaceutical sales are stagnating over the years covered. So by inflating monthly spending on medicinal products by the same factor (1.3 x 673.3 RUB = 875.7 RUB), we are likely overestimating total monthly spending in pharmacies in 2022.
+
+  In our transactions, we record total customer spending, including parapharmaceuticals, and our observation period is longer than one month. Based on the available data, the average spending over six weeks is 745.5 RUB. We have made very rough assumptions, so the estimates above should not be interpreted literally, however, they allow us to assess the order of magnitude. In my view, using our observed average as a reference point is fully justified.
+
+ Let’s define Group 0 as customers who spent more than or equal to 5 000 RUB, and divide the remaining customers into three approximately equal groups.
  */
 
 with all_receipts as (select
@@ -84,33 +95,29 @@ with all_receipts as (select
                              barcode,
                              monetary,
                              case
-                                 when monetary >= 4000 then 0
-                                 else ntile(3) over (partition by (monetary < 4000) order by monetary desc)
+                                 when monetary >= 5000 then 0
+                                 else ntile(3) over (partition by (monetary < 5000) order by monetary desc)
                                  end as m_score
-                         from rfm_base),
-     median_val as (select
-                        percentile_cont(0.5) within group (order by monetary) as median
-                    from rfm_base)
+                         from rfm_base)
 select
     m_score,
     count(barcode) as group_size,
     min(monetary) as min_monetary,
-    max(monetary) as max_monetary,
-    median
+    max(monetary) as max_monetary
 from monetary_scores
-cross join median_val
-group by m_score, median
+group by m_score
 order by m_score;
 
 /*
  Result:
-+-------+----------+------------+------------+------+
-|m_score|group_size|min_monetary|max_monetary|median|
-+-------+----------+------------+------------+------+
-|0      |142       |4028        |32058       |659   |
-|1      |715       |966         |3979        |659   |
-|2      |714       |363         |964         |659   |
-|3      |714       |24          |363         |659   |
-+-------+----------+------------+------------+------+
++-------+----------+------------+------------+
+|m_score|group_size|min_monetary|max_monetary|
++-------+----------+------------+------------+
+|0      |85        |5014        |32058       |
+|1      |734       |1043        |4995        |
+|2      |733       |371         |1043        |
+|3      |733       |24          |371         |
++-------+----------+------------+------------+
 
+Then around 700 RUB would be approximately the average for Group 2.
  */

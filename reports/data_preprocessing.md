@@ -1,6 +1,6 @@
 Participation in the discount program is determined by the loyalty card barcode, recorded in the DR_BCDisc field. For some transactions, this field has the value 'NULL'. It turns out that within a single receipt, some items may be sold with a discount (and the corresponding transaction will include the customer’s barcode number), while other items are sold without a discount — for these, 'NULL' will be recorded in the receipt.
 
-Thus, not all transactions with 'NULL' in the DR_BCDisc field are unidentifiable; some can still be accounted for using the full key that identifies the receipt. A complete analysis is provided in invalid_cards_overview.md [invalid_cards_overview.md](invalid_cards_overview.md). 
+Thus, not all transactions with 'NULL' in the DR_BCDisc field are unidentifiable; some can still be accounted for using the full key that identifies the receipt. A complete analysis is provided in invalid_cards_overview.md [null_barcodes_overview.md](null_barcodes_overview.md). 
 
 We also notice some outliers — six barcodes account for more than half of all receipts available in the dataset. A full analysis of this fact, along with other unusual behaviors of certain barcodes, can be found in [unusual_behavior_overview.md](unusual_behavior_overview.md).
 

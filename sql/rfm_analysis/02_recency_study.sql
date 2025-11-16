@@ -1,5 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups.
+ Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
  */
 
 with all_receipts as (select
@@ -49,5 +49,6 @@ order by r_score;
 |3      |761       |21         |39         |
 +-------+----------+-----------+-----------+
 
- One third of the users made their most recent purchase no more than 10 days before the final date in the dataset. We have a six-week observation window, during which more than two thirds of all customers made their last purchase in the second half of the period.
+ One third of the users made their most recent purchase no more than 10 days before the final date in the dataset. We have a six-week observation window, during which more than two thirds of all customers made their last purchase in the second half of the period. We consider this grouping appropriate.
+
  */

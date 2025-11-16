@@ -7,7 +7,13 @@
  */
 
 /*
-To begin, we will compile a table containing the receipts that will serve as the basis for the RFM analysis. To do this, we will first merge all missing NULL-transactions into their corresponding receipts (CTE all_receipts), then filter out the barcodes we identified as outliers as well as any receipts whose barcode remained NULL after all processing steps (CTE regular_receipts).
+ To begin, we will compile a table containing the receipts that will serve as the basis for the RFM analysis. To do this, we will first merge all missing NULL-transactions into their corresponding receipts (CTE all_receipts), then filter out the barcodes we identified as outliers as well as any receipts whose barcode remained NULL after all processing steps (CTE regular_receipts).
+
+ The CTE all_receipts contains information on all receipts present in the original database. To ensure the completeness of each receipt (as mentioned earlier, a single receipt can contain multiple barcodes), we use a partial PK (excluding the item number field dr_pos). As a result, for each receipt we obtain a set of dr_bcdisc values, and we want to select from this set the barcode we consider “regular.”
+
+ We take advantage of the fact that the value 'NULL' in dr_bcdisc is always recorded as a string, so it is lexicographically greater than any numeric string. Initially, we attempt to exclude from this set all internal-use barcodes and 'NULL' (there are no receipts in the database containing more than two distinct numeric barcodes). If a receipt contains only internal-use barcodes and/or 'NULL', the receipt is assigned the minimal value among them.
+
+ In the regular_receipts CTE, we filter out receipts that were assigned an internal-use or 'NULL' barcode.
 */
 
 with all_receipts as (select

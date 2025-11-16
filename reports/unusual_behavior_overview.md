@@ -23,7 +23,7 @@ Before deciding how to handle these barcodes, let’s look at the top performers
 
 ![](images/top_performers.png)
 
-Barcode '200000000022' accounts for more than a quarter of all receipts (and 2000 transactions totaling 1 529 558.10&#8381). The top six cards with the highest number of receipts together accumulate over half of all receipts. We should also pay attention to how many different stores these cards were used in. I would also assume that pharmacy employees might use certain cards to process orders placed, for example, by phone. 
+Barcode '200000000022' accounts for more than a quarter of all receipts (and 2000 transactions totaling 1 529 558.10RUB). The top six cards with the highest number of receipts together accumulate over half of all receipts. We should also pay attention to how many different stores these cards were used in. I would also assume that pharmacy employees might use certain cards to process orders placed, for example, by phone. 
 
 | rank | receipts | card | different\_stores |
 | :--- | :--- | :--- | :--- |
@@ -34,14 +34,14 @@ Barcode '200000000022' accounts for more than a quarter of all receipts (and 200
 | 5 | 73 | 200000000042 | 8 |
 | 6 | 47 | 200000000044 | 6 |
 
-We highlight these first six barcodes. Barcodes with ranks 2 through 6 have fewer transactions, but purchases were made at different stores. For example, for the second barcode, 200000000492, was active every day included in the dataset, there were 1032 transactions totaling 839 869.77&#8381, and transactions were conducted at multiple pharmacies on each working day.
+We highlight these first six barcodes. Barcodes with ranks 2 through 6 have fewer transactions, but purchases were made at different stores. For example, for the second barcode, 200000000492, was active every day included in the dataset, there were 1032 transactions totaling 839 869.77RUB, and transactions were conducted at multiple pharmacies on each working day.
 
 | num\_active\_days | min\_recipts\_daily | avg\_recipts\_daily | max\_recipts\_daily | min\_dist\_stores\_daily |
 | :--- | :--- | :--- | :--- | :--- |
 | 39 | 14 | 26.5 | 35 | 4 |
 
-Now, by combining these two issues — an excessively large number of transactions (6 barcodes) and the simultaneous appearance of two barcodes in a single receipt (18 cards) — we can cross-reference our lists of “suspicious” barcodes. Among the six cards, five also appear in the list of 18. These five cards account for 3 687 receipts with two cards (out of 3 748).
+Now, by combining these two issues — an excessively large number of transactions (6 barcodes) and the simultaneous appearance of two barcodes in a single receipt (18 cards) — we can cross-reference our lists of “suspicious” barcodes. Among the six cards, five also appear in the list of 18.
 
 The remaining top performing barcodes do not show either diversity of stores or an unusually high number of receipts (visiting a pharmacy every day, without additional factors, is not beyond what we might expect from a regular customer).
 
-Thus, we exclude these 6 top performers from the analysis.
+Thus, we say that these 6 top performers are "internal-use" barcodes, and we exclude them from the analysis.

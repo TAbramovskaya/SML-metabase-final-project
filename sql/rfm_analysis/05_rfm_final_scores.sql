@@ -1,3 +1,17 @@
+/*
+ Here is a full explanation of how the basis for the analysis is constructed.
+
+ The CTE all_receipts contains information on all receipts present in the original database. To ensure the completeness of each receipt (as mentioned earlier, a single receipt can contain multiple barcodes), we use a partial PK (excluding the item number field dr_pos). As a result, for each receipt we obtain a set of dr_bcdisc values, and we want to select from this set the barcode we consider “regular.”
+
+ We take advantage of the fact that the value 'NULL' in dr_bcdisc is always recorded as a string, so it is lexicographically greater than any numeric string. Initially, we attempt to exclude from this set all internal-use barcodes and 'NULL' (there are no receipts in the database containing more than two distinct numeric barcodes). If a receipt contains only internal-use barcodes and/or 'NULL', the receipt is assigned the minimal value among them.
+
+ In the regular_receipts CTE, we filter out receipts that were assigned an internal-use or 'NULL' barcode.
+
+ The rfm_base CTE prepares customer-level information — we identify each customer by their barcode, group receipts assigned to the same barcode, and compute the RFM characteristics: recency (the number of days from the last purchase to June 9, 2022), frequency (the number of receipts), and monetary (the total amount across all receipts).
+
+ The boundaries for group assignment in the rfm_scores CTE were discussed separately.
+ */
+
 with all_receipts as (select
                           dr_dat as purchase_date,
                           coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
@@ -28,13 +42,14 @@ with all_receipts as (select
                         monetary,
                         ntile(3) over (order by recency) as r_score,
                         case
+                            when frequency >= 7 then 0
                             when frequency >= 4 then 1
                             when frequency >= 2 then 2
                             else 3
                             end as f_score,
                         case
-                            when monetary >= 4000 then 0
-                            else ntile(3) over (partition by (monetary < 4000) order by monetary desc)
+                            when monetary >= 5000 then 0
+                            else ntile(3) over (partition by (monetary < 5000) order by monetary desc)
                             end as m_score
                     from rfm_base)
 select
@@ -60,39 +75,43 @@ order by  r_score, f_score, m_score;
 +-----------+--------------+
 |cohort_size|cohort_segment|
 +-----------+--------------+
-|41         |110           |
-|54         |111           |
-|9          |112           |
-|33         |120           |
-|161        |121           |
-|101        |122           |
-|29         |123           |
-|7          |130           |
+|14         |100           |
+|11         |101           |
+|15         |110           |
+|53         |111           |
+|11         |112           |
+|16         |120           |
+|172        |121           |
+|104        |122           |
+|32         |123           |
+|4          |130           |
 |71         |131           |
-|99         |132           |
-|157        |133           |
-|6          |210           |
-|21         |211           |
+|98         |132           |
+|161        |133           |
+|3          |200           |
+|1          |201           |
+|3          |210           |
+|20         |211           |
 |3          |212           |
-|27         |220           |
-|125        |221           |
-|98         |222           |
-|30         |223           |
-|8          |230           |
-|94         |231           |
-|153        |232           |
-|197        |233           |
-|1          |310           |
-|4          |311           |
+|14         |220           |
+|133        |221           |
+|101        |222           |
+|32         |223           |
+|3          |230           |
+|93         |231           |
+|156        |232           |
+|200        |233           |
+|5          |311           |
 |1          |312           |
-|5          |320           |
-|53         |321           |
-|40         |322           |
-|11         |323           |
-|14         |330           |
-|132        |331           |
-|210        |332           |
-|290        |333           |
+|4          |320           |
+|52         |321           |
+|41         |322           |
+|12         |323           |
+|9          |330           |
+|123        |331           |
+|218        |332           |
+|296        |333           |
 +-----------+--------------+
+
 
  */
