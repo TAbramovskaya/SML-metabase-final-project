@@ -61,7 +61,7 @@ order by m_score;
 
  Thus, we will assume that in 2022 the monthly spending is approximately 673.3 RUB.
 
-  From the referenced reports, we also see that the average receipt including parapharmaceuticals in 2022 was 1.3 times higher, at 601.8 RUB, but we also see that parapharmaceutical sales are stagnating over the years covered. So by inflating monthly spending on medicinal products by the same factor (1.3 x 673.3 RUB = 875.7 RUB), we are likely overestimating total monthly spending in pharmacies in 2022.
+  From the referenced docs, we also see that the average receipt including parapharmaceuticals in 2022 was 1.3 times higher, at 601.8 RUB, but we also see that parapharmaceutical sales are stagnating over the years covered. So by inflating monthly spending on medicinal products by the same factor (1.3 x 673.3 RUB = 875.7 RUB), we are likely overestimating total monthly spending in pharmacies in 2022.
 
   In our transactions, we record total customer spending, including parapharmaceuticals, and our observation period is longer than one month. Based on the available data, the average spending over six weeks is 745.5 RUB. We have made very rough assumptions, so the estimates above should not be interpreted literally, however, they allow us to assess the order of magnitude. In my view, using our observed average as a reference point is fully justified.
 
