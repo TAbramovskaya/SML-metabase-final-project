@@ -2,22 +2,22 @@
  Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
  */
 
-with all_receipts as (select
+with internal_use_and_null as (select
+                                   unnest(array ['200000000022', '200000000492', '200000000024',
+                                       '200010000015', '200000000042', '200000000044', 'NULL']) as bad_bc),
+     all_receipts as (select
                           dr_dat as purchase_date,
-                          coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
-                                                                ('200000000022', '200000000492', '200000000024',
-                                                                 '200010000015', '200000000042', '200000000044',
-                                                                 'NULL')),
+                          coalesce(min(dr_bcdisc)
+                                   filter (where dr_bcdisc not in (select bad_bc from internal_use_and_null)),
                                    min(dr_bcdisc)) as barcode,
                           dr_nchk as receipt_id,
-                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total
+                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
+                          count(*) as number_of_items
                       from sales
                       group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
      regular_receipts as (select *
                           from all_receipts
-                          where barcode not in
-                                ('200000000022', '200000000492', '200000000024', '200010000015',
-                                 '200000000042', '200000000044', 'NULL')),
+                          where barcode not in (select bad_bc from internal_use_and_null)),
      rfm_base as (select
                       barcode,
                       '2022-06-09'::date - max(purchase_date) as recency,
@@ -68,22 +68,22 @@ order by m_score;
  Let’s define Group 0 as customers who spent more than or equal to 5 000 RUB, and divide the remaining customers into three approximately equal groups.
  */
 
-with all_receipts as (select
+with internal_use_and_null as (select
+                                   unnest(array ['200000000022', '200000000492', '200000000024',
+                                       '200010000015', '200000000042', '200000000044', 'NULL']) as bad_bc),
+     all_receipts as (select
                           dr_dat as purchase_date,
-                          coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
-                                                                ('200000000022', '200000000492', '200000000024',
-                                                                 '200010000015', '200000000042', '200000000044',
-                                                                 'NULL')),
+                          coalesce(min(dr_bcdisc)
+                                   filter (where dr_bcdisc not in (select bad_bc from internal_use_and_null)),
                                    min(dr_bcdisc)) as barcode,
                           dr_nchk as receipt_id,
-                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total
+                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
+                          count(*) as number_of_items
                       from sales
                       group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
      regular_receipts as (select *
                           from all_receipts
-                          where barcode not in
-                                ('200000000022', '200000000492', '200000000024', '200010000015',
-                                 '200000000042', '200000000044', 'NULL')),
+                          where barcode not in (select bad_bc from internal_use_and_null)),
      rfm_base as (select
                       barcode,
                       '2022-06-09'::date - max(purchase_date) as recency,
@@ -96,7 +96,9 @@ with all_receipts as (select
                              monetary,
                              case
                                  when monetary >= 5000 then 0
-                                 else ntile(3) over (partition by (monetary < 5000) order by monetary desc)
+                                 when monetary >= 1043 then 1
+                                 when monetary >= 471 then 2
+                                 else 3
                                  end as m_score
                          from rfm_base)
 select
@@ -119,5 +121,5 @@ order by m_score;
 |3      |733       |24          |371         |
 +-------+----------+------------+------------+
 
-Then around 700 RUB would be approximately the average for Group 2.
+ We set the lower bounds at 5014, 1043, and 3718 for Groups 0, 1 and 2, respectively.
  */

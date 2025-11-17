@@ -12,27 +12,28 @@
  The boundaries for group assignment in the rfm_scores CTE were discussed separately.
  */
 
-with all_receipts as (select
+with internal_use_and_null as (select
+                                   unnest(array ['200000000022', '200000000492', '200000000024',
+                                       '200010000015', '200000000042', '200000000044', 'NULL']) as bad_bc),
+     all_receipts as (select
                           dr_dat as purchase_date,
-                          coalesce(min(dr_bcdisc) filter (where dr_bcdisc not in
-                                                                ('200000000022', '200000000492', '200000000024',
-                                                                 '200010000015', '200000000042', '200000000044',
-                                                                 'NULL')),
+                          coalesce(min(dr_bcdisc)
+                                   filter (where dr_bcdisc not in (select bad_bc from internal_use_and_null)),
                                    min(dr_bcdisc)) as barcode,
                           dr_nchk as receipt_id,
-                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total
+                          round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
+                          count(*) as number_of_items
                       from sales
                       group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
      regular_receipts as (select *
                           from all_receipts
-                          where barcode not in
-                                ('200000000022', '200000000492', '200000000024', '200010000015',
-                                 '200000000042', '200000000044', 'NULL')),
+                          where barcode not in (select bad_bc from internal_use_and_null)),
      rfm_base as (select
                       barcode,
                       '2022-06-09'::date - max(purchase_date) as recency,
                       count(receipt_id) as frequency,
-                      sum(receipt_total) as monetary
+                      sum(receipt_total) as monetary,
+                      sum(number_of_items) as items_purchased
                   from regular_receipts
                   group by barcode),
      rfm_scores as (select
@@ -40,6 +41,7 @@ with all_receipts as (select
                         recency,
                         frequency,
                         monetary,
+                        items_purchased,
                         case
                             when recency <= 8 then 1
                             when recency <= 20 then 2
@@ -53,10 +55,12 @@ with all_receipts as (select
                             end as f_score,
                         case
                             when monetary >= 5000 then 0
-                            else ntile(3) over (partition by (monetary < 5000) order by monetary desc)
+                            when monetary >= 1043 then 1
+                            when monetary >= 371 then 2
+                            else 3
                             end as m_score
                     from rfm_base)
-/* select
+ select
     barcode,
     recency,
     r_score,
@@ -65,14 +69,15 @@ with all_receipts as (select
     monetary,
     m_score
 from rfm_scores
-order by recency, frequency desc, monetary desc;*/
-select
+order by recency, frequency desc, monetary desc;
+
+/*select
     count(barcode) as cohort_size,
     r_score::text || f_score::text || m_score::text as cohort_segment
 from rfm_scores
 group by r_score, f_score, m_score
-order by  r_score, f_score, m_score;
-/*
+order by r_score, f_score, m_score;
+
  Result:
 +-----------+--------------+
 |cohort_size|cohort_segment|
@@ -83,9 +88,9 @@ order by  r_score, f_score, m_score;
 |52         |111           |
 |11         |112           |
 |15         |120           |
-|166        |121           |
+|167        |121           |
 |98         |122           |
-|32         |123           |
+|31         |123           |
 |4          |130           |
 |70         |131           |
 |93         |132           |
@@ -110,11 +115,9 @@ order by  r_score, f_score, m_score;
 |48         |322           |
 |15         |323           |
 |9          |330           |
-|135        |331           |
-|230        |332           |
+|136        |331           |
+|229        |332           |
 |306        |333           |
 +-----------+--------------+
-
-
 
  */
