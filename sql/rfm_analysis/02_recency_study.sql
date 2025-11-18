@@ -1,5 +1,7 @@
 /*
  Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
+
+ The query for the number of customers who made multiple purchases in a single day is at the very bottom of the file.
  */
 
 with internal_use_and_null as (select
@@ -105,3 +107,25 @@ order by r_score;
 +-------+----------+-----------+-----------+
 
  */
+
+-- To calculate the number of customers who made more than one purchase per day, use the query below together with the CTE set from the main query.
+/*
+select
+    count(distinct barcode)
+from (select
+          count(*) as num_of_purchases,
+          barcode,
+          purchase_date
+      from regular_receipts
+      group by barcode, purchase_date
+      having count(*) > 1) as multiple_daily_purchases;
+
+/*
+ Result:
++-----+
+|count|
++-----+
+|91   |
++-----+
+
+*/

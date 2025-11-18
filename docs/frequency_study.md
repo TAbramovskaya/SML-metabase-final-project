@@ -1,3 +1,5 @@
+## Split into Equal Parts
+
 Let’s take a look at how the score boundaries for frequency were determined when dividing customers into three equal groups. (Explore the [SQL queries for this section](../sql/rfm_analysis/03_frequency_study.sql).)
 
 | f\_score | group\_size | min\_frequency | max\_frequency |

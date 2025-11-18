@@ -22,6 +22,7 @@ with internal_use_and_null as (select
                                    min(dr_bcdisc)) as barcode,
                           dr_nchk as receipt_id,
                           round(sum(dr_kol * dr_croz - dr_sdisc)::numeric, 2) as receipt_total,
+                          sum(dr_sdisc) as discount_amount,
                           count(*) as number_of_items
                       from sales
                       group by dr_dat, dr_tim, dr_nchk, dr_ndoc, dr_apt, dr_kkm, dr_tabempl),
@@ -33,7 +34,8 @@ with internal_use_and_null as (select
                       '2022-06-09'::date - max(purchase_date) as recency,
                       count(receipt_id) as frequency,
                       sum(receipt_total) as monetary,
-                      sum(number_of_items) as items_purchased
+                      sum(number_of_items) as items_purchased,
+                      sum(discount_amount) as discount_amount
                   from regular_receipts
                   group by barcode),
      rfm_scores as (select
@@ -42,6 +44,7 @@ with internal_use_and_null as (select
                         frequency,
                         monetary,
                         items_purchased,
+                        discount_amount,
                         case
                             when recency <= 8 then 1
                             when recency <= 20 then 2
@@ -56,11 +59,11 @@ with internal_use_and_null as (select
                         case
                             when monetary >= 5000 then 0
                             when monetary >= 1043 then 1
-                            when monetary >= 371 then 2
+                            when monetary >= 471 then 2
                             else 3
                             end as m_score
                     from rfm_base)
- select
+select
     barcode,
     recency,
     r_score,
@@ -70,54 +73,3 @@ with internal_use_and_null as (select
     m_score
 from rfm_scores
 order by recency, frequency desc, monetary desc;
-
-/*select
-    count(barcode) as cohort_size,
-    r_score::text || f_score::text || m_score::text as cohort_segment
-from rfm_scores
-group by r_score, f_score, m_score
-order by r_score, f_score, m_score;
-
- Result:
-+-----------+--------------+
-|cohort_size|cohort_segment|
-+-----------+--------------+
-|13         |100           |
-|11         |101           |
-|15         |110           |
-|52         |111           |
-|11         |112           |
-|15         |120           |
-|167        |121           |
-|98         |122           |
-|31         |123           |
-|4          |130           |
-|70         |131           |
-|93         |132           |
-|156        |133           |
-|4          |200           |
-|1          |201           |
-|3          |210           |
-|21         |211           |
-|3          |212           |
-|14         |220           |
-|131        |221           |
-|100        |222           |
-|29         |223           |
-|3          |230           |
-|82         |231           |
-|149        |232           |
-|195        |233           |
-|5          |311           |
-|1          |312           |
-|5          |320           |
-|60         |321           |
-|48         |322           |
-|15         |323           |
-|9          |330           |
-|136        |331           |
-|229        |332           |
-|306        |333           |
-+-----------+--------------+
-
- */

@@ -1,0 +1,31 @@
+site_name: Pharmacy RFM Lens
+site_url: https://TAbramovskaya.github.io/sml-metabase-final-project/
+theme:
+  name: material
+  palette:
+    primary: black
+    accent: orange
+  font:
+    text: Roboto
+    code: Roboto Mono
+  nav_style: expand
+
+nav:
+  - Summary: index.md
+  - Source: db_overview.md
+  - Data preprocessing: data_preprocessing.md
+  - Handling NULLs: null_barcodes_overview.md
+  - Unusual behaviour: unusual_behavior_overview.md
+  - Inconsistent data: inconsistent_data_overview.md
+  - RFM final base overview: rfm_base_overview.md
+  - Explore RFM: rfm_study.md
+  - Recency: recency_study.md
+  - Frequency: frequency_study.md
+  - Monetary: monetary_study.md
+  - Behavior & Grouping: rfm_behavior.md
+  - Finalize: rfm_finalize.md
+
+extra_css:
+  - styles.css  # optional for custom styling
+extra_javascript:
+  - scripts.js # optional for custom JS

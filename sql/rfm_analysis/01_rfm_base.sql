@@ -51,13 +51,13 @@ with internal_use_and_null as (select
                            from all_receipts
                            where barcode in (select bad_bc from internal_use_and_null))
 select
-    'Regular receipts' as type,
+    'Regular' as type,
     count(receipt_id) as receipts,
     sum(number_of_items) as transactions
 from regular_receipts
 union all
 select
-    'Excluded receipts',
+    'Excluded',
     count(receipt_id),
     sum(number_of_items)
 from excluded_receipts
@@ -70,13 +70,13 @@ from all_receipts;
 
 /*
  Result:
-+-----------------+--------+------------+
-|type             |receipts|transactions|
-+-----------------+--------+------------+
-|Regular receipts |3886    |10256       |
-|Excluded receipts|17116   |34872       |
-|Total            |21002   |45128       |
-+-----------------+--------+------------+
++--------+--------+------------+
+|type    |receipts|transactions|
++--------+--------+------------+
+|Regular |3886    |10256       |
+|Excluded|17116   |34872       |
+|Total   |21002   |45128       |
++--------+--------+------------+
 
 The RFM analysis will be based on 18.5% of all receipts available in the dataset. This corresponds to 3 886 receipts, representing purchases made by 2 285 customers. Compared to the initial dataset, the analysis will be based on 10 256 transactions, which corresponds to slightly less than 22.7% of the entire dataset.
  */

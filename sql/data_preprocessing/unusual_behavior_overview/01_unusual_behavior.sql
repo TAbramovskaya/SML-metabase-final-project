@@ -28,7 +28,7 @@ where dr_dat = '2022-05-15'::date
 |2022-05-15|17:21:31|1903   |3          |200000000042|939          |ЛИНКОМИЦИН 250М|
 +----------+--------+-------+-----------+------------+-------------+---------------+
 
- Barcode 200000000042 appears in 73 transactions across 8 different stores, whereas barcode 200010017048 appears only in these two transactions included in this receipt. We may assume that some barcodes (like “the forty-second” in the example receipt) might be used by pharmacy staff together with a customer’s barcode. As we will see later, some barcodes appear an unusually high number of times.
+ Barcode 200000000042 appears in 73 transactions across 8 different stores, whereas barcode 200010017048 appears only in these two transactions included in this receipt. We may assume that some barcodes (like "the forty-second" in the example receipt) might be used by pharmacy staff together with a customer’s barcode. As we will see later, some barcodes appear an unusually high number of times.
 
  There are 18 such barcodes in total:
 */
@@ -63,5 +63,5 @@ right join multi_barcodes mb
 
  There are 41 receipts with double barcodes.
 
- Some of them show typical activity, while others show patterns that do not align with the expected “normal customer behavior."
+ Some of them show typical activity, while others show patterns that do not align with the expected "normal customer behavior."
  */
