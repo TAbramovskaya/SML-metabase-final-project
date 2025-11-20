@@ -1,4 +1,6 @@
-Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups. (Explore the [SQL queries for this section](../sql/rfm_analysis/04_monetary_study.sql).)
+## Split into equal parts
+
+Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups.
 
 | m\_score | group\_size | min\_monetary | max\_monetary |
 | :--- | :--- | :--- | :--- |
@@ -6,27 +8,37 @@ Let’s take a look at how the score boundaries for monetary were determined whe
 | 2 | 762 | 389 | 1122 |
 | 3 | 761 | 24 | 388 |
 
-The median monetary value is 659 RUB, average -- 745.5 RUB. We can see that the highest spending values differ from the median by two orders of magnitude.
+The median monetary value is 659 RUB, average — 745.5 RUB. We can see that the highest spending values differ from the median by two orders of magnitude.
 
-We will rely on publicly available research from the analytical company RNC Pharma. According to their analytics, in the first seven months of 2025, Russians spent more than 900 RUB per month on purchasing medicinal products ([RNC Pharma blogpost about average per capita spending on the purchase of medicines](https://rncph.ru/blog/150925/)). Note that RNC Pharma analysts distinguish between purchases of medicines and non-medicinal products offered by pharmacies (parapharmaceuticals: cosmetics, food supplements, etc).
+## Some research
 
-The average receipt for medicines in the available 2025 data is 618.5 RUB, while in 2022 the average receipt for medicines was 462.7 RUB ([blogpost about average one-time purchase in pharmacies in 2022 - 2025](https://rncph.ru/blog/201025/)). 
+We will rely on publicly available research from the analytical company **RNC Pharma**. According to their analysis (see the [RNC Pharma report on seasonal sales](pdfs/rnc_pharma_rossijskaya_farmroznicza_iyul_2025.pdf), pdf, in Russian), the monthly per capita consumption of medications in 2023 and 2024 was over 800 RUB and 930 RUB, respectively. 
 
-![](images/rnc_pharma_one_time_purchase_average.png)
+![](images/rnc_pharma_monthly_per_capita.png)
 
-We will make a very rough assumption that the pharmacy visitation patterns did not change significantly, and we will interpolate the 2025 proportions to 2022. Overall, the trend appears stable — see the [blogpost about dynamics (monthly) of the average one-time purchase 2023-2025](https://rncph.ru/blog/170425/).
+Note that RNC Pharma analysts distinguish between purchases of medicines and non-medicinal products offered by pharmacies (_parapharmaceuticals_: cosmetics, food supplements, etc.). So an additional approximately 200 RUB comes from parapharmaceutical consumption. We do not have data for 2022, however, the same report shows the revenue structure for 2022.
 
-Thus, we will assume that in 2022 the monthly spending on medicinal products is approximately 673.3 RUB.
+![](images/rnc_pharma_revenue_structure_2022_2024.png)
 
-From the referenced reports, we also see that the average receipt including parapharmaceuticals in 2022 was 1.3 times higher, at 601.8 RUB, but we also see that parapharmaceutical sales are stagnating over the years covered. So by inflating monthly spending on medicinal products by the same factor (1.3 x 673.3 RUB = 875.7 RUB), we are likely overestimating average monthly (medicinal products + parapharmaceuticals) spending in pharmacies in 2022.
+Based on the trend, we can estimate that the monthly per capita consumption of medications in 2022 was around 760 RUB, thus, including parapharmaceuticals, the monthly per capita consumption would be around 960 RUB.
 
-In our transactions, we record total customer spending, including parapharmaceuticals, and our observation period is longer than one month. We have made very rough assumptions, so the estimates above should not be interpreted literally, however, they allow us to assess the order of magnitude. Based on our data, the average spending over six weeks is 745.5 RUB -- using this observed average as a reference point is fully justified.
+Our analysis includes only actual customers (not the entire population), however, our period falls within a season of traditionally low pharmacy sales.
 
-Let’s define Group 0 as customers who spent more than or equal to 5 000 RUB, and divide the remaining customers into three approximately equal groups.
- 
+![](images/rnc_pharma_sales_by_month.png)
+
+We can see that our average monthly spending of 745.5 RUB differs significantly from what we could estimate based on the report of monthly per capita spending. There are several possible reasons for this. First, it is a low season — we see that May-July is a period of minimal sales. Second, consumption levels can vary greatly across different regions of Russia, and we do not know which regions the pharmacies in our dataset belong to. Third, our data may be incomplete.
+
+## Our choice
+
+The period selected for data analysis is slightly longer than a month, but under all other assumptions, this should not have a significant impact. We will set a threshold of 5 000 RUB as the lower boundary for   Group 0 (this corresponds to the largest banknote in Russia and serves more as a psychological barrier than a data-driven value). According to the reasoning above, the range from 650 to 1050 RUB will be considered the spending limits of a "regular customer"; above this amount — customers with higher medication needs, below — customers with lower medication needs.
+
 | m\_score | group\_size | min\_monetary | max\_monetary |
 | :--- | :--- | :--- | :--- |
 | 0 | 85 | 5014 | 32058 |
-| 1 | 734 | 1043 | 4995 |
-| 2 | 733 | 371 | 1043 |
-| 3 | 733 | 24 | 371 |
+| 1 | 728 | 1053 | 4995 |
+| 2 | 339 | 650 | 1050 |
+| 3 | 1133 | 24 | 649 |
+
+## SQL Verification  
+
+All the SQL queries used in this section are available in the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/main/sql/rfm_analysis/04_monetary_study.sql).

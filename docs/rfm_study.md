@@ -1,3 +1,7 @@
+Our goal is to divide the 2,285 customers into groups according to the RFM methodology, and then consolidate them into larger segments based on behavioral patterns. As a result of our work, we will obtain 6 major segments. The methods for working with the recency, frequency, and monetary metrics are presented below.
+
+![](images/customer_segments.png)
+
 Let’s define the methodology and the labeling format for assigning users to groups.
 
 ## Recency
@@ -14,5 +18,4 @@ How much does a customer spend? We will review publicly available research from 
 
 ## Grouping
 
-As a result, we obtained 37 groups. We expanded the number of groups by adding a Group 0 for both frequency and monetary, capturing the small segment of customers with exceptional values on these metrics. You can view the [full SQL query in GitHub repo](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/main/sql/rfm_analysis/05_rfm_final_scores.sql) for assigning scores according to the entire methodology described above for each RFM metric. Now we’re ready to analyze the [Behavior](rfm_behavior.md) of the resulting groups.
-
+Now we’re ready to analyze the [Behavior](rfm_behavior.md) of the resulting groups. 

@@ -44,11 +44,13 @@ with internal_use_and_null as (select
                             end as f_score,
                         case
                             when monetary >= 5000 then 0
-                            when monetary >= 1043 then 1
-                            when monetary >= 471 then 2
+                            when monetary >= 1051 then 1
+                            when monetary >= 650 then 2
                             else 3
                             end as m_score
                     from rfm_base)
+
+
 select
     r_score::text || f_score::text || m_score::text as RFM,
     round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
@@ -59,19 +61,17 @@ from rfm_scores
 group by r_score, f_score, m_score
 order by average_receipt_total desc, average_number_of_items desc, group_size desc;
 
-
--- For Generous Newcomers totals
+-- For Generous Customers totals
 /*
 select
-    'Generous Newcomers' as group_name,
+    'Generous Customers' as group_name,
     round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
     round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (130, 230, 330, 220, 320, 120, 131, 231, 331);
+where r_score*100 + f_score*10  + m_score in (130, 230, 330, 120, 220, 320, 131, 231, 331);
 */
-
 
 -- For the x21 cohort use query below
 /*
@@ -96,22 +96,20 @@ select
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (110, 210, 321, 221, 121, 200);
+where r_score*100 + f_score*10  + m_score in (100, 200, 300, 110, 210, 310, 121, 221, 321);
 */
 
-
--- For Promising Newcomers totals
+-- For Promising Customers totals
 /*
 select
-    'Promising Newcomers' as group_name,
+    'Promising Customers' as group_name,
     round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
     round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (332, 232, 132);
+where r_score*100 + f_score*10  + m_score in (132, 232, 332);
 */
-
 
 -- For Pharmacy Friends totals
 /*
@@ -122,9 +120,8 @@ select
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (100, 101, 201, 111, 311, 211, 212, 112, 312, 213);
+where r_score*100 + f_score*10  + m_score in (101, 201, 301, 111, 211, 311, 122, 222, 322);
  */
-
 
 -- For Neighborhood Customers totals
 /*
@@ -135,11 +132,10 @@ select
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (322, 222, 122, 223, 123, 323);
+where r_score*100 + f_score*10  + m_score in  (112, 212, 312, 123, 223, 323, 113, 213, 313);
  */
 
-
--- For Customize Toolbar… totals
+-- For Interested Visitors totals
 /*
 select
     'Interested Visitors' as group_name,
@@ -148,6 +144,19 @@ select
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
-where r_score*100 + f_score*10  + m_score in (133, 333, 233);
+where r_score*100 + f_score*10  + m_score in (133, 233, 333);
 
+
+-- To see that groups x02, x03, 300, 310 are empty
+/*
+select
+    r_score::text || f_score::text || m_score::text as RFM,
+    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
+    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
+    count(*) as group_size
+from rfm_scores
+where (f_score = 0 and m_score = 3) or (r_score = 3 and f_score = 0 and m_score = 0) or (r_score = 3 and f_score = 1 and m_score = 0)
+group by r_score, f_score, m_score
+order by average_receipt_total desc, average_number_of_items desc, group_size desc;
  */

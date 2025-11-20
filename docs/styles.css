@@ -5,17 +5,17 @@
   flex-direction: row;
 }
 
-/* 1️⃣ TOC goes first */
+/* TOC goes first */
 .md-sidebar--secondary {
   order: 1;
 }
 
-/* 2️⃣ CONTENT goes second */
+/* CONTENT goes second */
 .md-content {
   order: 2;
 }
 
-/* 3️⃣ NAVIGATION goes last */
+/* NAVIGATION goes last */
 .md-sidebar--primary {
   order: 3;
 }

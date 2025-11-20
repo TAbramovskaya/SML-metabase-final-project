@@ -1,17 +1,3 @@
-/*
- Here is a full explanation of how the basis for the analysis is constructed.
-
- The CTE all_receipts contains information on all receipts present in the original database. To ensure the completeness of each receipt (as mentioned earlier, a single receipt can contain multiple barcodes), we use a partial PK (excluding the item number field dr_pos). As a result, for each receipt we obtain a set of dr_bcdisc values, and we want to select from this set the barcode we consider “regular.”
-
- We take advantage of the fact that the value 'NULL' in dr_bcdisc is always recorded as a string, so it is lexicographically greater than any numeric string. Initially, we attempt to exclude from this set all internal-use barcodes and 'NULL' (there are no receipts in the database containing more than two distinct numeric barcodes). If a receipt contains only internal-use barcodes and/or 'NULL', the receipt is assigned the minimal value among them.
-
- In the regular_receipts CTE, we filter out receipts that were assigned an internal-use or 'NULL' barcode.
-
- The rfm_base CTE prepares customer-level information — we identify each customer by their barcode, group receipts assigned to the same barcode, and compute the RFM characteristics: recency (the number of days from the last purchase to June 9, 2022), frequency (the number of receipts), and monetary (the total amount across all receipts).
-
- The boundaries for group assignment in the rfm_scores CTE were discussed separately.
- */
-
 with internal_use_and_null as (select
                                    unnest(array ['200000000022', '200000000492', '200000000024',
                                        '200010000015', '200000000042', '200000000044', 'NULL']) as bad_bc),
@@ -63,13 +49,26 @@ with internal_use_and_null as (select
                             else 3
                             end as m_score
                     from rfm_base)
+
+
 select
     barcode,
+    r_score::text || f_score::text || m_score::text as RFM_label,
+    case
+        when r_score*100 + f_score*10  + m_score in (130, 230, 330, 120, 220, 320, 131, 231, 331) then 'Generous Customers'
+        when r_score*100 + f_score*10  + m_score in (100, 200, 300, 110, 210, 310, 121, 221, 321) then 'Outstanding Customers'
+        when r_score*100 + f_score*10  + m_score in (132, 232, 332) then 'Promising Customers'
+        when r_score*100 + f_score*10  + m_score in (101, 201, 301, 111, 211, 311, 122, 222, 322) then 'Pharmacy Friends'
+        when r_score*100 + f_score*10  + m_score in (112, 212, 312, 123, 223, 323, 113, 213, 313) then 'Neighborhood Customers'
+        when r_score*100 + f_score*10  + m_score in (133, 233, 333) then 'Interested Visitors'
+        end as segment,
     recency,
     r_score,
     frequency,
     f_score,
     monetary,
-    m_score
+    m_score,
+    items_purchased,
+    discount_amount
 from rfm_scores
-order by recency, frequency desc, monetary desc;
+order by barcode;

@@ -1,5 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
+ Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_aggregated_data.sql
  */
 
 with internal_use_and_null as (select
@@ -96,8 +96,8 @@ with internal_use_and_null as (select
                              monetary,
                              case
                                  when monetary >= 5000 then 0
-                                 when monetary >= 1043 then 1
-                                 when monetary >= 471 then 2
+                                 when monetary >= 1051 then 1
+                                 when monetary >= 650 then 2
                                  else 3
                                  end as m_score
                          from rfm_base)
@@ -116,10 +116,10 @@ order by m_score;
 |m_score|group_size|min_monetary|max_monetary|
 +-------+----------+------------+------------+
 |0      |85        |5014        |32058       |
-|1      |734       |1043        |4995        |
-|2      |733       |371         |1043        |
-|3      |733       |24          |371         |
+|1      |728       |1053        |4995        |
+|2      |339       |650         |1050        |
+|3      |1133      |24          |649         |
 +-------+----------+------------+------------+
 
- We set the lower bounds at 5014, 1043, and 3718 for Groups 0, 1 and 2, respectively.
+
  */

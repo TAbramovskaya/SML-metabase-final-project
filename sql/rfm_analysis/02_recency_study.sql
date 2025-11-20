@@ -1,5 +1,5 @@
 /*
- Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_base.sql
+ Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups. A full explanation of how CTEs below are constructed can be found at the beginning of the sql/rfm_analysis/01_rfm_aggregated_data.sql
 
  The query for the number of customers who made multiple purchases in a single day is at the very bottom of the file.
  */

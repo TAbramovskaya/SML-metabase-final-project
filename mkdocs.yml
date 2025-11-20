@@ -17,7 +17,7 @@ nav:
   - Handling NULLs: null_barcodes_overview.md
   - Unusual behaviour: unusual_behavior_overview.md
   - Inconsistent data: inconsistent_data_overview.md
-  - RFM final base overview: rfm_base_overview.md
+  - RFM aggregated data: rfm_base_overview.md
   - Explore RFM: rfm_study.md
   - Recency: recency_study.md
   - Frequency: frequency_study.md
