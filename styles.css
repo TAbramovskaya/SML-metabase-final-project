@@ -1,0 +1,27 @@
+/* Reorder the layout: TOC | CONTENT | NAVIGATION */
+
+.md-main__inner {
+  display: flex;
+  flex-direction: row;
+}
+
+/* TOC goes first */
+.md-sidebar--secondary {
+  order: 1;
+}
+
+/* CONTENT goes second */
+.md-content {
+  order: 2;
+}
+
+/* NAVIGATION goes last */
+.md-sidebar--primary {
+  order: 3;
+}
+
+/* Optional spacing so content doesn't look squeezed */
+.md-sidebar--secondary,
+.md-sidebar--primary {
+  min-width: 260px;
+}
