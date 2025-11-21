@@ -49,12 +49,10 @@ with internal_use_and_null as (select
                             else 3
                             end as m_score
                     from rfm_base)
-
-
 select
     r_score::text || f_score::text || m_score::text as RFM,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -65,8 +63,8 @@ order by average_receipt_total desc, average_number_of_items desc, group_size de
 /*
 select
     'Generous Customers' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -77,8 +75,8 @@ where r_score*100 + f_score*10  + m_score in (130, 230, 330, 120, 220, 320, 131,
 /*
 select
     'x' || f_score::text || m_score::text as RFM,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -91,8 +89,8 @@ order by average_receipt_total desc, average_number_of_items desc, group_size de
 /*
 select
     'Outstanding Customers' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -103,8 +101,8 @@ where r_score*100 + f_score*10  + m_score in (100, 200, 300, 110, 210, 310, 121,
 /*
 select
     'Promising Customers' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -115,8 +113,8 @@ where r_score*100 + f_score*10  + m_score in (132, 232, 332);
 /*
 select
     'Pharmacy Friends' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -127,8 +125,8 @@ where r_score*100 + f_score*10  + m_score in (101, 201, 301, 111, 211, 311, 122,
 /*
 select
     'Neighborhood Customers' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -139,8 +137,8 @@ where r_score*100 + f_score*10  + m_score in  (112, 212, 312, 123, 223, 323, 113
 /*
 select
     'Interested Visitors' as group_name,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores
@@ -151,8 +149,8 @@ where r_score*100 + f_score*10  + m_score in (133, 233, 333);
 /*
 select
     r_score::text || f_score::text || m_score::text as RFM,
-    round(sum(monetary)::numeric / sum(frequency), 2) as average_receipt_total,
-    round(sum(items_purchased)::numeric / sum(frequency), 2) as average_number_of_items,
+    round(avg(monetary / frequency), 2) as average_receipt_total,
+    round(avg(items_purchased / frequency), 2) as average_number_of_items,
     round(avg(discount_amount*100 / (monetary + discount_amount))::numeric, 2) as average_discount,
     count(*) as group_size
 from rfm_scores

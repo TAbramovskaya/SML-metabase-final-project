@@ -9,7 +9,12 @@ theme:
     text: Roboto
     code: Roboto Mono
   nav_style: expand
-
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - attr_list     # ← добавляешь сюда
+  - pymdownx.details
 nav:
   - Summary: index.md
   - Source: db_overview.md
@@ -17,13 +22,13 @@ nav:
   - Handling NULLs: null_barcodes_overview.md
   - Unusual behaviour: unusual_behavior_overview.md
   - Inconsistent data: inconsistent_data_overview.md
-  - RFM aggregated data: rfm_base_overview.md
-  - Explore RFM: rfm_study.md
+  - RFM aggregated data: rfm_aggregated_data.md
+  - RFM calculation methodology: rfm_calculation_methodology.md
   - Recency: recency_study.md
   - Frequency: frequency_study.md
   - Monetary: monetary_study.md
-  - Behavior & Grouping: rfm_behavior.md
-  - Finalize: rfm_finalize.md
+  - Behavior & Segmentation: rfm_behavior.md
+  - Insights & Recommendations: rfm_finalize.md
 
 extra_css:
   - styles.css  # optional for custom styling

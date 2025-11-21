@@ -13,7 +13,8 @@ Barcode `200000000042` appears in 73 transactions across 8 different stores, whe
 
 There are 41 receipts in which two barcodes are listed at the same time. There are 18 such barcodes in total.
 
->`200000000022`, `200000000492`, `200000000024`, `200010000015`, `200000000042`, `200010018869`, `200010027390`, `200010020351`, `200010007376`, `200010022634`, `200010000007`, `200010016458`, `200010001032`, `200010000888`, `200010000008`, `200010026840`, `200010013481`, `200010017048`
+??? info "Click to see the set of all these barcodes"
+    `200000000022`, `200000000492`, `200000000024`, `200010000015`, `200000000042`, `200010018869`, `200010027390`, `200010020351`, `200010007376`, `200010022634`, `200010000007`, `200010016458`, `200010001032`, `200010000888`, `200010000008`, `200010026840`, `200010013481`, `200010017048`
 
 Some of them show typical activity, while others show patterns that do not align with the expected "normal customer behavior."
 
@@ -21,7 +22,7 @@ Before deciding how to handle these barcodes, let’s look at the top performers
 
 ![](images/top_performers.png)
 
-Barcode `200000000022` accounts for more than a quarter of all receipts (and 2000 transactions totaling 1 529 558.10 RUB). The top six cards with the highest number of receipts together accumulate over half of all receipts. We should also pay attention to how many different stores these cards were used in. I would also assume that pharmacy employees might use certain barcodes to process orders placed, for example, by phone. 
+Barcode `200000000022` accounts for more than a quarter of all receipts (and 2000 transactions totaling 1 529 558.10 RUB). The top six barcodes with the highest number of receipts together accumulate over half of all receipts. We should also pay attention to how many different stores these cards were used in. I would also assume that pharmacy employees might use certain barcodes to process orders placed, for example, by phone. 
 
 | rank | receipts | barcode      | different\_stores |
 | :--- | :--- |:-------------| :--- |

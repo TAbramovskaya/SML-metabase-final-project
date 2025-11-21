@@ -16,17 +16,19 @@ Let’s examine how many distinct receipts are present in the data in total; how
 
 We see that the sum of valid and `'NULL'` receipts does not equal the Total. This means that some receipts contain both items purchased with a valid loyalty card and items for which no discount was applied.
 
-We can assume that certain product categories are not eligible for discounts. Let’s take a look at one of these receipts as an example.
+We can assume that certain product categories are not eligible for discounts. Take a look at one of these receipts as an example.
 
-| receipt | position | card | price | discount | drug\_code | drug\_name |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 2297 | 1 | NULL | 395 | 0 | 4260 | ВИБРОЦИЛ 15МЛ.  |
-| 2297 | 2 | NULL | 455 | 0 | 76754 | РЕННИ №24 ТАБ.Ж |
-| 2297 | 3 | 200000000024 | 259 | 25 | 83115 | РОКС ЗУБ.ПАСТА  |
-| 2297 | 4 | 200000000024 | 256 | 25 | 27561 | РОКС ЗУБ.ПАСТА  |
-| 2297 | 5 | NULL | 121 | 0 | 72392 | СНУП 0,1% 90МКГ |
-| 2297 | 6 | NULL | 121 | 0 | 72392 | СНУП 0,1% 90МКГ |
-| 2297 | 7 | NULL | 446 | 0 | 31 | ТАНТУМ ВЕРДЕ 0, |
+??? abstract "Click to view a receipt"
+
+    | receipt | position | card | price | discount | drug\_code | drug\_name |
+    | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+    | 2297 | 1 | NULL | 395 | 0 | 4260 | ВИБРОЦИЛ 15МЛ.  |
+    | 2297 | 2 | NULL | 455 | 0 | 76754 | РЕННИ №24 ТАБ.Ж |
+    | 2297 | 3 | 200000000024 | 259 | 25 | 83115 | РОКС ЗУБ.ПАСТА  |
+    | 2297 | 4 | 200000000024 | 256 | 25 | 27561 | РОКС ЗУБ.ПАСТА  |
+    | 2297 | 5 | NULL | 121 | 0 | 72392 | СНУП 0,1% 90МКГ |
+    | 2297 | 6 | NULL | 121 | 0 | 72392 | СНУП 0,1% 90МКГ |
+    | 2297 | 7 | NULL | 446 | 0 | 31 | ТАНТУМ ВЕРДЕ 0, |
 
 ##Our Actions
 

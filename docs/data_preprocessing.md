@@ -12,6 +12,6 @@ We also notice some outliers — **six barcodes account for more than half of al
 
 The discount amount is represented as a positive value, which is then subtracted from the cost of the items in the transaction. Therefore, the total cost of goods sold in a single transaction is calculated as: quantity sold × retail price – discount amount (`DR_Kol × DR_CRoz – DR_SDisc`). Very rarely, **we observe negative discounts or negative quantities sold** in the data. We will also examine the difference between the wholesale price and the retail price. If there are product groups where the retail price is higher than the wholesale price, these may be items that should be excluded from our analysis. See [Inconsistent data](inconsistent_data_overview.md) overview for more details.
 
-## Preprocessed Data for RFM Analysis
+## Dataset for RFM analysis
 
-Look at the [RFM Aggregated Data](rfm_aggregated_data.md) to explore share of transactions and receipts included in the analysis. Or proceed directly to the [RFM study](rfm_study.md). 
+Look at the [RFM Aggregated data](rfm_aggregated_data.md) section to explore share of transactions and receipts included in the analysis. Or proceed directly to explore [RFM Calculation Methodology](rfm_calculation_methodology.md). 

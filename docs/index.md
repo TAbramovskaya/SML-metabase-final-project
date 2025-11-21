@@ -10,6 +10,6 @@ For the analysis, a dataset was provided containing 45 128 transactions recorded
 We will start by examining the data and preparing it for analysis. As a result of the preliminary data processing, the number of transactions included in the analysis will be reduced to 10 256. See a complete overview of the [Data preparation steps](data_preprocessing.md).   
 
 ##What do we want to achieve?
-We will perform an RFM analysis on the dataset. A set of 2 285 customers will be selected for the analysis, and we will divide them into groups according to the RFM methodology. Proceed directly to the [RFM study](rfm_study.md).
+We will perform an RFM analysis on the dataset. A set of 2 285 customers will be selected for the analysis, we will assign scores to them according to the RFM methodology and then divide them into segments based on behavioral patterns to work with them more effectively and we will divide them into groups according to the RFM methodology. Proceed directly to the [RFM calculation methodology](rfm_calculation_methodology.md).
 
 
