@@ -1,6 +1,6 @@
 Our goal is to divide the 2,285 customers into groups according to the RFM methodology, and then consolidate them into larger segments based on behavioral patterns. As a result of our work, we will obtain 6 major segments. The methods for working with the recency, frequency, and monetary metrics are presented below.
 
-![](images/customer_segments.png)
+![](images/customer_segments.png){ style="display:block; margin-left:auto; margin-right:auto;" }
 
 Let’s define the methodology and the labeling format for assigning users to groups.
 

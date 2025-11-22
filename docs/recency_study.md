@@ -1,5 +1,9 @@
 ## Split into equal parts
 
+The bar chart below shows the distribution of Recency values grouped into 50 bins.
+
+![](images/recency_barchart.png){ style="display:block; margin-left:auto; margin-right:auto;" }
+
 Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups.
 
 | r\_score | group\_size | min\_recency | max\_recency |
@@ -22,7 +26,7 @@ Final grouping by recency:
 | 2 | 803 | 9 | 21 |
 | 3 | 746 | 22 | 39 |
 
-!!! note "Note"
+!!! note "Note" 
 
     It should be noted that over the six-week period, during which more than half of the customers visited only once, the recency metric is not very informative. We will see that groups with the same frequency and monetary values (regardless of recency) demonstrate remarkable consistency.
 

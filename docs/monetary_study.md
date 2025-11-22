@@ -1,5 +1,9 @@
 ## Split into equal parts
 
+The bar chart below shows the distribution of Monetary values grouped into 50 bins.
+
+![](images/monetary_barchart.png){ style="display:block; margin-left:auto; margin-right:auto;" }
+
 Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups.
 
 | m\_score | group\_size | min\_monetary | max\_monetary |

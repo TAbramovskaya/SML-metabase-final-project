@@ -1,5 +1,9 @@
 ## Split into equal parts
 
+The bar chart below shows the distribution of Frequency values grouped into 50 bins.
+
+![](images/frequency_barchart.png){ style="display:block; margin-left:auto; margin-right:auto;" }
+
 Let’s take a look at how the score boundaries for frequency were determined when dividing customers into three equal groups. 
 
 | f\_score | group\_size | min\_frequency | max\_frequency |
