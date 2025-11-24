@@ -153,6 +153,6 @@ Nevertheless, they agreed to buy a loyalty card, so we will call this group the 
 | :--- | :--- | :--- | :--- | :--- |
 | Interested Visitors | 276.21 | 1.99 | 4.94 | 929 |
 
-##SQL Verification  
+## SQL verification  
 
 All the SQL queries used in this section are available in the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/main/sql/rfm_analysis/06_average_receipt_by_group.sql) for review and verification.

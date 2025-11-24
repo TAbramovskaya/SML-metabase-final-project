@@ -1,4 +1,4 @@
-## Recommendations for Better Data
+## Recommendations for better data
 
 We will begin with recommendations regarding the quality of the data provided for analysis.
 
@@ -7,6 +7,10 @@ First, **a longer period** of around three months seems more suitable for the tr
 Second, **seasonality** should be taken into account. The data for May and early June do not fully reflect the actual customer flow.
 
 Third, it appears important to **indicate the type of each item** (whether it is a medicinal product or not). We see that increasing the number of items in the receipt can significantly improve the Monetary metric without increasing visit frequency. Moreover, recommending non-medicinal products is far more promising than trying to sell a customer a medicinal product they do not need. At the moment, recommendations in this area can only be made based on the number of items in the receipt.
+
+## Metabase dashboard
+
+We visualized a summary of the resulting segments, as well as the charts that helped us assign the RFM scores and perform additional data processing, on the [dashboard](http://metabase.simulative.ru/public/dashboard/e8e35857-298e-4a45-905a-ebb815b36939).
 
 ## Generous Customers 
 

@@ -30,6 +30,6 @@ Final grouping by recency:
 
     It should be noted that over the six-week period, during which more than half of the customers visited only once, the recency metric is not very informative. We will see that groups with the same frequency and monetary values (regardless of recency) demonstrate remarkable consistency.
 
-##SQL Verification  
+## SQL verification  
 
 All the SQL queries used in this section are available in the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/main/sql/rfm_analysis/02_recency_study.sql).

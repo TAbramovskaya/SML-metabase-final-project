@@ -43,6 +43,6 @@ The period selected for data analysis is slightly longer than a month, but under
 | 2 | 339 | 650 | 1050 |
 | 3 | 1133 | 24 | 649 |
 
-## SQL Verification  
+## SQL verification  
 
 All the SQL queries used in this section are available in the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/main/sql/rfm_analysis/04_monetary_study.sql).

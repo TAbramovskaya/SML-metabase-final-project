@@ -14,4 +14,4 @@ We will perform an RFM analysis on the dataset. A set of 2 285 customers will be
 
 ## What did we achieve in the end? 
 
-Based on the RFM scores, we grouped customers into six major segments, described the characteristics of each, and proposed actionable next steps for effective engagement in the [Insights & Recommendations](rfm_finalize.md) section. We also built a [Metabase dashboard](https://metabase.simulative.ru/dashboard/727-pharma-rfm-analysis) to visualize our process and results.
+Based on the RFM scores, we grouped customers into six major segments, described the characteristics of each, and proposed actionable next steps for effective engagement in the [Insights & Recommendations](rfm_finalize.md) section. We also built a [Metabase dashboard](http://metabase.simulative.ru/public/dashboard/e8e35857-298e-4a45-905a-ebb815b36939) to visualize our process and results.

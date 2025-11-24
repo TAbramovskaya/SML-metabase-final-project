@@ -1,4 +1,4 @@
-##Exploring the Data
+## Exploring the data
 
 Among valid barcodes, unusual behavior is sometimes observed. For example, it also happens that different barcodes are used within a single receipt. Let’s take a look at one such receipt.
 
@@ -43,11 +43,11 @@ Now, by combining these two issues — an excessively large number of transactio
 
 The remaining top performing barcodes do not show either diversity of stores or an unusually high number of receipts (visiting a pharmacy every day, without additional factors, is not beyond what we might expect from a regular customer).
 
-##Our Actions
+## Our actions
 
 We say that these 6 top performers are "internal-use" barcodes, and we exclude them from the analysis.
 
 
-##SQL Verification  
+## SQL verification  
 
 You can check the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/tree/main/sql/data_preprocessing/unusual_behavior_overview) to review the SQL queries used in this section.

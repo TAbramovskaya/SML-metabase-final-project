@@ -1,4 +1,4 @@
-##Exploring the Data
+## Exploring the data
 
 We are examining how customer cards are represented in the `DR_BCDisc` column. We calculate how many transactions correspond to `'NULL'` barcodes and how many to valid barcodes (any string entries other than `'NULL'` are treated as valid barcode identifiers). Let’s also make sure that all cards are either marked with the string `'NULL'` or have some other string value, and that there are no SQL `null` among them.
 
@@ -30,12 +30,12 @@ We can assume that certain product categories are not eligible for discounts. Ta
     | 2297 | 6 | NULL | 121 | 0 | 72392 | СНУП 0,1% 90МКГ |
     | 2297 | 7 | NULL | 446 | 0 | 31 | ТАНТУМ ВЕРДЕ 0, |
 
-##Our Actions
+## Our actions
 
 We will merge the information according to the primary key so that each receipt contains data for all its items.
 
 Receipts that contain only `'NULL'` barcodes cannot be associated with any customer, therefore, we will exclude them from the analysis.
 
-##SQL Verification  
+## SQL verification  
 
 You can check the [GitHub repository](https://github.com/TAbramovskaya/SML-metabase-final-project/tree/main/sql/data_preprocessing/invalid_cards_overview) to review the SQL queries used in this section.
