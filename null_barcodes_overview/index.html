@@ -348,7 +348,7 @@
   <a href="#exploring-the-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exploring the Data
+        Exploring the data
       
     </span>
   </a>
@@ -359,7 +359,7 @@
   <a href="#our-actions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Our Actions
+        Our actions
       
     </span>
   </a>
@@ -370,7 +370,7 @@
   <a href="#sql-verification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SQL Verification
+        SQL verification
       
     </span>
   </a>
@@ -656,7 +656,7 @@
   <a href="#exploring-the-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exploring the Data
+        Exploring the data
       
     </span>
   </a>
@@ -667,7 +667,7 @@
   <a href="#our-actions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Our Actions
+        Our actions
       
     </span>
   </a>
@@ -678,7 +678,7 @@
   <a href="#sql-verification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SQL Verification
+        SQL verification
       
     </span>
   </a>
@@ -704,7 +704,7 @@
 
   <h1>Handling NULLs</h1>
 
-<h2 id="exploring-the-data">Exploring the Data<a class="headerlink" href="#exploring-the-data" title="Permanent link">&para;</a></h2>
+<h2 id="exploring-the-data">Exploring the data<a class="headerlink" href="#exploring-the-data" title="Permanent link">&para;</a></h2>
 <p>We are examining how customer cards are represented in the <code>DR_BCDisc</code> column. We calculate how many transactions correspond to <code>'NULL'</code> barcodes and how many to valid barcodes (any string entries other than <code>'NULL'</code> are treated as valid barcode identifiers). Let’s also make sure that all cards are either marked with the string <code>'NULL'</code> or have some other string value, and that there are no SQL <code>null</code> among them.</p>
 <p><img alt="" src="../images/share_of_valid_and_invalid_cards.png" /></p>
 <p>Thus, we have 17 936 valid transactions, 27 192 <code>'NULL'</code>-string entries, and no transactions with an actual SQL <code>null</code> value.</p>
@@ -795,10 +795,10 @@
 </tbody>
 </table>
 </details>
-<h2 id="our-actions">Our Actions<a class="headerlink" href="#our-actions" title="Permanent link">&para;</a></h2>
+<h2 id="our-actions">Our actions<a class="headerlink" href="#our-actions" title="Permanent link">&para;</a></h2>
 <p>We will merge the information according to the primary key so that each receipt contains data for all its items.</p>
 <p>Receipts that contain only <code>'NULL'</code> barcodes cannot be associated with any customer, therefore, we will exclude them from the analysis.</p>
-<h2 id="sql-verification">SQL Verification<a class="headerlink" href="#sql-verification" title="Permanent link">&para;</a></h2>
+<h2 id="sql-verification">SQL verification<a class="headerlink" href="#sql-verification" title="Permanent link">&para;</a></h2>
 <p>You can check the <a href="https://github.com/TAbramovskaya/SML-metabase-final-project/tree/main/sql/data_preprocessing/invalid_cards_overview">GitHub repository</a> to review the SQL queries used in this section.</p>
 
 
