@@ -706,12 +706,12 @@
 
 <h2 id="exploring-the-data">Exploring the data<a class="headerlink" href="#exploring-the-data" title="Permanent link">&para;</a></h2>
 <p>We are examining how customer cards are represented in the <code>DR_BCDisc</code> column. We calculate how many transactions correspond to <code>'NULL'</code> barcodes and how many to valid barcodes (any string entries other than <code>'NULL'</code> are treated as valid barcode identifiers). Let’s also make sure that all cards are either marked with the string <code>'NULL'</code> or have some other string value, and that there are no SQL <code>null</code> among them.</p>
-<p><img alt="" src="../images/share_of_valid_and_invalid_cards.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/share_of_valid_and_invalid_cards.png?raw=true"><img alt="" src="../images/share_of_valid_and_invalid_cards.png" /></a></p>
 <p>Thus, we have 17 936 valid transactions, 27 192 <code>'NULL'</code>-string entries, and no transactions with an actual SQL <code>null</code> value.</p>
 <p>The distribution of valid and invalid transactions within a single day appears consistent with the overall 40/60 ratio observed across the entire table. (May 9 is a public holiday in Russia, and many stores are closed on that day.)</p>
-<p><img alt="" src="../images/distribution_of_users_with_valid_and_invalid_cards_by_day.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/distribution_of_users_with_valid_and_invalid_cards_by_day.png?raw=true"><img alt="" src="../images/distribution_of_users_with_valid_and_invalid_cards_by_day.png" /></a></p>
 <p>Let’s examine how many distinct receipts are present in the data in total; how many of them include a valid loyalty card and how many contain a <code>'NULL'</code> barcode. </p>
-<p><img alt="" src="../images/receipts_associated_with_valid_and_invalid_cards.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/receipts_associated_with_valid_and_invalid_cards.png?raw=true"><img alt="" src="../images/receipts_associated_with_valid_and_invalid_cards.png" /></a></p>
 <p>We see that the sum of valid and <code>'NULL'</code> receipts does not equal the Total. This means that some receipts contain both items purchased with a valid loyalty card and items for which no discount was applied.</p>
 <p>We can assume that certain product categories are not eligible for discounts. Take a look at one of these receipts as an example.</p>
 <details class="abstract">

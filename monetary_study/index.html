@@ -728,7 +728,7 @@
 
 <h2 id="split-into-equal-parts">Split into equal parts<a class="headerlink" href="#split-into-equal-parts" title="Permanent link">&para;</a></h2>
 <p>The bar chart below shows the distribution of Monetary values grouped into 50 bins.</p>
-<p><img alt="" src="../images/monetary_barchart.png" style="display:block; margin-left:auto; margin-right:auto;" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/monetary_barchart.png?raw=true"><img alt="" src="../images/monetary_barchart.png" style="display:block; margin-left:auto; margin-right:auto;" /></a></p>
 <p>Let’s take a look at how the score boundaries for monetary were determined when dividing customers into three equal groups.</p>
 <table>
 <thead>
@@ -763,12 +763,12 @@
 <p>The median monetary value is 659 RUB, average — 745.5 RUB. We can see that the highest spending values differ from the median by two orders of magnitude.</p>
 <h2 id="some-research">Some research<a class="headerlink" href="#some-research" title="Permanent link">&para;</a></h2>
 <p>We will rely on publicly available research from the analytical company <strong>RNC Pharma</strong>. According to their analysis (see the <a href="../pdfs/rnc_pharma_rossijskaya_farmroznicza_iyul_2025.pdf">RNC Pharma report on seasonal sales</a>, pdf, in Russian), the monthly per capita consumption of medications in 2023 and 2024 was over 800 RUB and 930 RUB, respectively. </p>
-<p><img alt="" src="../images/rnc_pharma_monthly_per_capita.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/rnc_pharma_monthly_per_capita.png?raw=true"><img alt="" src="../images/rnc_pharma_monthly_per_capita.png" /></a></p>
 <p>Note that RNC Pharma analysts distinguish between purchases of medicines and non-medicinal products offered by pharmacies (<em>parapharmaceuticals</em>: cosmetics, food supplements, etc.). So an additional approximately 200 RUB comes from parapharmaceutical consumption. We do not have data for 2022, however, the same report shows the revenue structure for 2022.</p>
-<p><img alt="" src="../images/rnc_pharma_revenue_structure_2022_2024.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/rnc_pharma_revenue_structure_2022_2024.png?raw=true"><img alt="" src="../images/rnc_pharma_revenue_structure_2022_2024.png" /></a></p>
 <p>Based on the trend, we can estimate that the monthly per capita consumption of medications in 2022 was around 760 RUB, thus, including parapharmaceuticals, the monthly per capita consumption would be around 960 RUB.</p>
 <p>Our analysis includes only actual customers (not the entire population), however, our period falls within a season of traditionally low pharmacy sales.</p>
-<p><img alt="" src="../images/rnc_pharma_sales_by_month.png" /></p>
+<p><a href="https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/rnc_pharma_sales_by_month.png?raw=true"><img alt="" src="../images/rnc_pharma_sales_by_month.png" /></a></p>
 <p>We can see that our average monthly spending of 745.5 RUB differs significantly from what we could estimate based on the report of monthly per capita spending. There are several possible reasons for this. First, it is a low season — we see that May-July is a period of minimal sales. Second, consumption levels can vary greatly across different regions of Russia, and we do not know which regions the pharmacies in our dataset belong to. Third, our data may be incomplete.</p>
 <h2 id="our-choice">Our choice<a class="headerlink" href="#our-choice" title="Permanent link">&para;</a></h2>
 <p>The period selected for data analysis is slightly longer than a month, but under all other assumptions, this should not have a significant impact. We will set a threshold of 5 000 RUB as the lower boundary for   Group 0 (this corresponds to the largest banknote in Russia and serves more as a psychological barrier than a data-driven value). According to the reasoning above, the range from 650 to 1050 RUB will be considered the spending limits of a "regular customer"; above this amount — customers with higher medication needs, below — customers with lower medication needs.</p>
