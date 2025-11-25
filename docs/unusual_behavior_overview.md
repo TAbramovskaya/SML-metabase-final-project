@@ -20,7 +20,7 @@ Some of them show typical activity, while others show patterns that do not align
 
 Before deciding how to handle these barcodes, let’s look at the top performers in terms of the number of receipts.
 
-![](images/top_performers.png)
+[![](images/top_performers.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/top_performers.png?raw=true)
 
 Barcode `200000000022` accounts for more than a quarter of all receipts (and 2000 transactions totaling 1 529 558.10 RUB). The top six barcodes with the highest number of receipts together accumulate over half of all receipts. We should also pay attention to how many different stores these cards were used in. I would also assume that pharmacy employees might use certain barcodes to process orders placed, for example, by phone. 
 

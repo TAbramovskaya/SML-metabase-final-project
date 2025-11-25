@@ -2,17 +2,17 @@
 
 We are examining how customer cards are represented in the `DR_BCDisc` column. We calculate how many transactions correspond to `'NULL'` barcodes and how many to valid barcodes (any string entries other than `'NULL'` are treated as valid barcode identifiers). Let’s also make sure that all cards are either marked with the string `'NULL'` or have some other string value, and that there are no SQL `null` among them.
 
-![](images/share_of_valid_and_invalid_cards.png)
+[![](images/share_of_valid_and_invalid_cards.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/share_of_valid_and_invalid_cards.png?raw=true)
  
 Thus, we have 17 936 valid transactions, 27 192 `'NULL'`-string entries, and no transactions with an actual SQL `null` value.
 
 The distribution of valid and invalid transactions within a single day appears consistent with the overall 40/60 ratio observed across the entire table. (May 9 is a public holiday in Russia, and many stores are closed on that day.)
 
-![](images/distribution_of_users_with_valid_and_invalid_cards_by_day.png)
+[![](images/distribution_of_users_with_valid_and_invalid_cards_by_day.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/distribution_of_users_with_valid_and_invalid_cards_by_day.png?raw=true)
 
 Let’s examine how many distinct receipts are present in the data in total; how many of them include a valid loyalty card and how many contain a `'NULL'` barcode. 
 
-![](images/receipts_associated_with_valid_and_invalid_cards.png)
+[![](images/receipts_associated_with_valid_and_invalid_cards.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/receipts_associated_with_valid_and_invalid_cards.png?raw=true)
 
 We see that the sum of valid and `'NULL'` receipts does not equal the Total. This means that some receipts contain both items purchased with a valid loyalty card and items for which no discount was applied.
 

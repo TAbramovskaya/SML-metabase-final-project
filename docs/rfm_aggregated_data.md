@@ -5,12 +5,12 @@ We can check what proportion of receipts will ultimately form the basis for the 
 ## Share of filtered receipts
 
 The RFM analysis will be based on 18.5% of all receipts available in the dataset. This corresponds to 3 886 receipts, representing purchases made by 2 285 customers.
-![](images/excluded_and_regular_receipts_proportion.png)
+[![](images/excluded_and_regular_receipts_proportion.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/excluded_and_regular_receipts_proportion.png?raw=true)
 
 ## Share of filtered transactions
 
 Compared to the initial dataset, the analysis will be based on 10 256 transactions, which corresponds to slightly less than 22.7% of the entire dataset.
-![](images/excluded_and_regular_transactions_proportion.png)
+[![](images/excluded_and_regular_transactions_proportion.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/excluded_and_regular_transactions_proportion.png?raw=true)
 
 ## SQL verification  
 

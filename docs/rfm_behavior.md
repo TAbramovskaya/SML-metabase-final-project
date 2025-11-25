@@ -2,7 +2,7 @@ For the selected groups, we will additionally calculate the average receipt amou
 
 The average receipt (including parapharmaceuticals) in 2022 was 601.8 RUB (see the [RNC Pharma blogpost about average one-time purchase in pharmacies in 2022 - 2025](https://rncph.ru/blog/201025/), in Russian). 
 
-![](images/rnc_pharma_one_time_purchase_average.png)
+[![](images/rnc_pharma_one_time_purchase_average.png)](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/rnc_pharma_one_time_purchase_average.png?raw=true)
 
 We also know that in 2025 customers purchased, on average, 2.4–3 packages per month (see the [RNC Pharma blogpost about average per capita spending on the purchase of medicines](https://rncph.ru/blog/150925/), in Russian).
 

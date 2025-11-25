@@ -2,7 +2,7 @@
 
 The bar chart below shows the distribution of Recency values grouped into 50 bins.
 
-![](images/recency_barchart.png){ style="display:block; margin-left:auto; margin-right:auto;" }
+[![](images/recency_barchart.png){ style="display:block; margin-left:auto; margin-right:auto;" }](https://github.com/TAbramovskaya/SML-metabase-final-project/blob/gh-pages/images/recency_barchart.png?raw=true)
 
 Let’s take a look at how the score boundaries for recency were determined when dividing customers into three equal groups.
 
