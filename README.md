@@ -2,7 +2,7 @@
 
 ### Overview
 
-This project is dedicated to performing an RFM (Recency, Frequency, Monetary) analysis on transactional data from a retail pharmacy chain. The results will be visualized and explored using Metabase.
+This project is dedicated to performing an RFM (Recency, Frequency, Monetary) analysis on transactional data from a retail pharmacy chain. The results will be visualized and explored using Metabase. 
 
 ### The dataset
 
@@ -36,3 +36,7 @@ Specifically, the project aims to:
 - Provide actionable insights that can support marketing strategies, customer retention, and loyalty program optimization.
 
 - Visualize results using Metabase.
+
+### Results
+
+The complete workflow and results are available on the [project website](https://tabramovskaya.github.io/SML-metabase-final-project/).
